@@ -277,18 +277,10 @@
             opacity: 0;
             pointer-events: none; /* Disable interactions after fade out */
         }
-        /* Animation for the Mario Ruiz name on landing page */
-        @keyframes typing-name {
-            from { width: 0; }
-            to { width: 100%; }
-        }
-        @keyframes typing-portfolio {
-            from { width: 0; }
-            to { width: 100%; }
-        }
+        /* Animation for the blinking caret */
         @keyframes blink-static-caret {
-            from, to { border-color: transparent }
-            50% { border-color: orange; }
+            from, to { opacity: 0; }
+            50% { opacity: 1; }
         }
         .landing-text-container {
             display: flex;
@@ -303,9 +295,6 @@
             font-weight: bold;
             text-transform: uppercase;
             color: #FFFFFF;
-            overflow: hidden; /* Hide overflow for typing effect */
-            border-right: .15em solid transparent; /* Hidden caret initially */
-            animation: typing-name 1.5s steps(10, end) forwards;
         }
         .landing-caret {
             display: inline-block;
@@ -315,17 +304,11 @@
             animation: blink-static-caret .75s step-end infinite;
             margin: 0 1rem; /* Space around the caret */
             height: 1em; /* Ensure consistent height */
-            opacity: 0; /* Hidden initially */
         }
         .landing-portfolio-text {
             font-weight: bold;
             text-transform: uppercase;
             color: #FFFFFF;
-            width: 0; /* Start with zero width for typing effect */
-            overflow: hidden;
-            border-right: .15em solid transparent; /* Hidden caret initially */
-            animation: typing-portfolio 1s steps(10, end) forwards;
-            animation-delay: 1.5s; /* Start after name typing */
         }
         /* Responsive adjustments for landing page text */
         @media (max-width: 768px) { /* Adjust for smaller screens */
@@ -351,9 +334,9 @@
     <!-- Landing Page -->
     <div id="landing-page">
         <div class="landing-text-container">
-            <span class="landing-name-text" id="landing-name-element">MARIO RUIZ</span>
+            <span class="landing-name-text">MARIO RUIZ</span>
             <span class="landing-caret" id="landing-caret-element">|</span>
-            <span class="landing-portfolio-text" id="landing-portfolio-element">PORTFOLIO</span>
+            <span class="landing-portfolio-text">PORTFOLIO</span>
         </div>
     </div>
 
@@ -816,33 +799,44 @@
             const landingPortfolioElement = document.getElementById('landing-portfolio-element');
 
             // Initial state: Hide caret and portfolio text
-            landingCaretElement.style.opacity = '0';
-            landingPortfolioElement.style.width = '0';
-            landingPortfolioElement.style.borderRightColor = 'transparent'; // Hide typing caret initially
-
+            if (landingCaretElement) landingCaretElement.style.opacity = '0';
+            if (landingPortfolioElement) landingPortfolioElement.textContent = ''; // Clear text content for typing
+            
             // Animation sequence for landing page
+            // Phase 1: Mario Ruiz is already visible (static)
             setTimeout(() => {
-                // Phase 1: Mario Ruiz is already visible (static)
                 // Phase 2: Show blinking caret
-                landingCaretElement.style.opacity = '1';
+                if (landingCaretElement) landingCaretElement.style.opacity = '1';
                 setTimeout(() => {
                     // Phase 3: Start typing PORTFOLIO
-                    landingPortfolioElement.style.animation = 'typing-portfolio 1s steps(10, end) forwards';
-                    landingPortfolioElement.style.borderRightColor = 'orange'; // Show typing caret
-                    
-                    // After typing portfolio, hide its caret and stop separator caret blinking
-                    setTimeout(() => {
-                        landingPortfolioElement.style.borderRightColor = 'transparent'; // Hide portfolio typing caret
-                        landingCaretElement.style.animation = 'none'; // Stop separator caret blinking
-                        landingCaretElement.style.borderRightColor = 'transparent'; // Hide separator caret border
-                        
-                        // Phase 4: Fade out landing page
-                        landingPage.classList.add('fade-out');
-                        setTimeout(() => {
-                            landingPage.classList.add('hidden');
-                            mainPortfolioContent.classList.remove('hidden');
-                        }, 500); // Matches fade-out transition duration
-                    }, 1000 + 500); // 1s for typing-portfolio + 0.5s buffer
+                    const portfolioText = "PORTFOLIO";
+                    let charIndex = 0;
+                    const typingInterval = 100; // milliseconds per character
+
+                    const typePortfolio = setInterval(() => {
+                        if (charIndex < portfolioText.length) {
+                            if (landingPortfolioElement) landingPortfolioElement.textContent += portfolioText.charAt(charIndex);
+                            charIndex++;
+                        } else {
+                            clearInterval(typePortfolio);
+                            // After typing portfolio, hide its typing caret (implicitly done by stopping interval)
+                            
+                            // Stop the separator caret blinking
+                            if (landingCaretElement) {
+                                landingCaretElement.style.animation = 'none';
+                                landingCaretElement.style.opacity = '0'; // Hide the separator caret
+                            }
+                            
+                            // Phase 4: Fade out landing page
+                            setTimeout(() => {
+                                if (landingPage) landingPage.classList.add('fade-out');
+                                setTimeout(() => {
+                                    if (landingPage) landingPage.classList.add('hidden');
+                                    if (mainPortfolioContent) mainPortfolioContent.classList.remove('hidden');
+                                }, 500); // Matches fade-out transition duration
+                            }, 500); // Small delay before fading out
+                        }
+                    }, typingInterval);
                 }, 500); // Show caret after 0.5s
             }, 500); // Start sequence after 0.5s initial text display
 
