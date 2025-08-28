@@ -134,6 +134,32 @@
         .hide-scrollbar::-webkit-scrollbar {
             display: none;
         }
+        /* Custom styling for the Mario Ruiz name in introduction */
+        .mario-ruiz-title {
+            background: linear-gradient(90deg, #3B82F6, #60A5FA); /* Blue gradient */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: transparent;
+            font-weight: 800; /* Extra bold */
+            letter-spacing: -0.02em; /* Slight letter spacing adjustment */
+        }
+        .social-link-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px; /* Fixed width for circular background */
+            height: 48px; /* Fixed height for circular background */
+            border-radius: 50%;
+            background-color: #E5E7EB; /* Light gray background */
+            color: #1F2937; /* Dark icon color */
+            font-size: 1.5rem; /* Icon size */
+            transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+        }
+        .social-link-item:hover {
+            background-color: #3B82F6; /* Blue on hover */
+            color: #FFFFFF; /* White icon on hover */
+        }
     </style>
 </head>
 <body class="antialiased text-gray-800">
@@ -141,16 +167,21 @@
     <!-- Fixed Navigation Bar -->
     <nav class="fixed top-0 left-0 w-full bg-white bg-opacity-90 backdrop-blur-md z-50 shadow-sm">
         <div class="container mx-auto max-w-6xl flex justify-between items-center p-4">
-            <a href="#introduction" class="text-2xl font-bold text-gray-900 hover:text-blue-600 transition-colors">Mario Ruiz</a>
+            <a href="#introduction" class="text-2xl font-bold text-gray-900 hover:text-blue-600 transition-colors flex items-center">
+                <img src="assets/images/mr-logo.png" alt="MR Logo" class="w-8 h-8 mr-2 object-contain"> <!-- MR Logo -->
+                Mario Ruiz
+            </a>
             <div class="space-x-4 hidden md:flex">
+                <a href="#about" class="text-gray-600 hover:text-blue-600 font-medium transition-colors">About</a>
                 <a href="#portfolio" class="text-gray-600 hover:text-blue-600 font-medium transition-colors">Works</a>
                 <a href="#offerings" class="text-gray-600 hover:text-blue-600 font-medium transition-colors">Services</a>
+                <a href="#skills" class="text-gray-600 hover:text-blue-600 font-medium transition-colors">Toolkit</a>
                 <a href="#blog" class="text-gray-600 hover:text-blue-600 font-medium transition-colors">Blog</a>
                 <a href="#contact" class="text-gray-600 hover:text-blue-600 font-medium transition-colors">Contact</a>
             </div>
             <!-- Hamburger Menu -->
-            <div id="nav-toggle" class="md:hidden p-2 rounded-full cursor-pointer z-50 bg-red-500"> <!-- TEMPORARY: Added bg-red-500 for visibility -->
-                <i id="hamburger-icon" class="fas fa-bars text-xl text-white"></i> <!-- TEMPORARY: Changed to text-white for contrast -->
+            <div id="nav-toggle" class="md:hidden p-2 rounded-full cursor-pointer z-50">
+                <i id="hamburger-icon" class="fas fa-bars text-xl text-gray-900"></i>
             </div>
         </div>
     </nav>
@@ -159,8 +190,10 @@
     <div id="sitemap-modal" class="fixed inset-0 z-40 bg-white bg-opacity-90 backdrop-blur-md hidden transition-opacity duration-300 opacity-0 flex flex-col justify-center items-center">
         <ul class="text-4xl font-bold text-center space-y-8">
             <li><a href="#introduction" class="hover:text-blue-600 transition-colors sitemap-link text-gray-900">Home</a></li>
+            <li><a href="#about" class="hover:text-blue-600 transition-colors sitemap-link text-gray-900">About</a></li>
             <li><a href="#portfolio" class="hover:text-blue-600 transition-colors sitemap-link text-gray-900">Works</a></li>
             <li><a href="#offerings" class="hover:text-blue-600 transition-colors sitemap-link text-gray-900">Services</a></li>
+            <li><a href="#skills" class="hover:text-blue-600 transition-colors sitemap-link text-gray-900">Toolkit</a></li>
             <li><a href="#blog" class="hover:text-blue-600 transition-colors sitemap-link text-gray-900">Blog</a></li>
             <li><a href="#contact" class="hover:text-blue-600 transition-colors sitemap-link text-gray-900">Contact</a></li>
         </ul>
@@ -182,11 +215,36 @@
         
         <!-- Introduction Section - Content is on top of the video -->
         <section id="introduction" class="container mx-auto max-w-6xl p-4 sm:p-8 lg:p-12 text-center -mt-20 relative z-20">
-             <div class="rounded-3xl shadow-xl p-8 sm:p-12">
-                <h1 class="text-4xl sm:text-5xl lg:text-7xl font-bold mb-4 text-gray-900">Mario Ruiz</h1>
+             <div class="rounded-3xl shadow-xl p-8 sm:p-12 section-content">
+                <h1 class="text-4xl sm:text-5xl lg:text-7xl font-bold mb-4 text-gray-900 mario-ruiz-title">Mario Ruiz</h1>
                 <h2 class="text-xl sm:text-2xl font-light text-blue-600 mb-6">Designer, Product Developer & 3D Visualizer</h2>
-                <p class="text-base sm:text-lg max-w-2xl mx-auto text-gray-700 leading-relaxed">
+                <p class="text-base sm:text-lg max-w-2xl mx-auto text-gray-700 leading-relaxed mb-8">
                     Passionate Industrial Designer crafting efficient, high-performing products that balance functionality, user experience, and form.
+                </p>
+                <!-- Social Media Links -->
+                <div class="flex flex-wrap items-center justify-center gap-4">
+                    <a href="https://www.linkedin.com/in/marioruiz3d/" target="_blank" class="social-link-item">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="https://twitter.com" target="_blank" class="social-link-item">
+                         <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="https://instagram.com" target="_blank" class="social-link-item">
+                         <i class="fab fa-instagram"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="container mx-auto max-w-6xl p-4 sm:p-8 lg:p-12">
+            <h3 class="text-2xl sm:text-3xl font-bold text-gray-900 border-b-4 section-heading pb-2 mb-8">About Me</h3>
+            <div class="rounded-3xl shadow-xl p-8 sm:p-12 section-content">
+                <p class="text-gray-700 text-base leading-relaxed mb-4">
+                    Welcome to my world of design and visualization. With a deep passion for creating impactful and functional products, I thrive at the intersection of aesthetics, user experience, and engineering. My journey has taken me through various facets of industrial design, from crafting mobility solutions and modular structures to developing architectural products and immersive 3D visualizations.
+                </p>
+                <p class="text-gray-700 text-base leading-relaxed">
+                    I believe in a holistic design approach, where every detail is meticulously considered to achieve a harmonious balance between form and function. My expertise spans across advanced 3D modeling, rapid prototyping, and leveraging AI-assisted workflows to push creative boundaries and deliver innovative solutions. I am constantly exploring new technologies and methodologies to stay at the forefront of design, ensuring that every project I undertake is not just visually stunning but also highly efficient and purposeful.
                 </p>
             </div>
         </section>
@@ -289,9 +347,9 @@
             </div>
         </section>
 
-        <!-- Skills Section (Sushi Bar) -->
+        <!-- Skills Section (Creative Arsenal) -->
         <section id="skills" class="container mx-auto max-w-6xl p-4 sm:p-8 lg:p-12 text-center">
-            <h3 class="text-2xl sm:text-3xl font-bold text-gray-900 border-b-4 section-heading pb-2 mb-8 inline-block">Tools I Use</h3>
+            <h3 class="text-2xl sm:text-3xl font-bold text-gray-900 border-b-4 section-heading pb-2 mb-8 inline-block">Creative Arsenal</h3>
             <div class="marquee-container py-4" id="tools-marquee-container">
                 <div class="marquee-content">
                     <div class="marquee-item">
@@ -322,9 +380,9 @@
             </div>
         </section>
 
-        <!-- Blog Section -->
+        <!-- Blog Section (Studio Notes) -->
         <section id="blog" class="container mx-auto max-w-6xl p-4 sm:p-8 lg:p-12">
-            <h3 class="text-2xl sm:text-3xl font-bold text-gray-900 border-b-4 section-heading pb-2 mb-8">Thoughts & Insights</h3>
+            <h3 class="text-2xl sm:text-3xl font-bold text-gray-900 border-b-4 section-heading pb-2 mb-8">Studio Notes</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <!-- Blog Post 1 -->
                 <a href="#" class="block transform transition-transform hover:scale-105">
@@ -349,9 +407,9 @@
             </div>
         </section>
         
-        <!-- Clients Section (Sushi Bar) -->
+        <!-- Clients Section (Collaborations) -->
         <section id="clients" class="container mx-auto max-w-6xl p-4 sm:p-8 lg:p-12 text-center">
-            <h3 class="text-2xl sm:text-3xl font-bold text-gray-900 border-b-4 section-heading pb-2 mb-8 inline-block">Brands I've Worked With</h3>
+            <h3 class="text-2xl sm:text-3xl font-bold text-gray-900 border-b-4 section-heading pb-2 mb-8 inline-block">Collaborations</h3>
             <div class="marquee-container py-4" id="brands-marquee-container">
                 <div class="marquee-content">
                     <div class="marquee-item">
@@ -442,20 +500,23 @@
                     I'm currently available for new projects and collaborations. Feel free to reach out to me.
                 </p>
                 <div class="flex flex-wrap items-center justify-start md:justify-center gap-6">
-                    <a href="mailto:mr.ruiz624@gmail.com" class="text-gray-900 text-3xl p-3 rounded-full hover:bg-blue-600 hover:text-white transition-colors">
+                    <a href="mailto:mr.ruiz624@gmail.com" class="social-link-item">
                         <i class="fas fa-envelope"></i>
                     </a>
-                     <a href="tel:+14378383936" class="text-gray-900 text-3xl p-3 rounded-full hover:bg-blue-600 hover:text-white transition-colors">
+                     <a href="tel:+14378383936" class="social-link-item">
                         <i class="fas fa-phone"></i>
                     </a>
-                    <a href="https://www.linkedin.com/in/marioruiz3d/" target="_blank" class="text-gray-900 text-3xl p-3 rounded-full hover:bg-blue-600 hover:text-white transition-colors">
+                    <a href="https://www.linkedin.com/in/marioruiz3d/" target="_blank" class="social-link-item">
                         <i class="fab fa-linkedin"></i>
                     </a>
-                    <a href="https://twitter.com" target="_blank" class="text-gray-900 text-3xl p-3 rounded-full hover:bg-blue-600 hover:text-white transition-colors">
+                    <a href="https://twitter.com" target="_blank" class="social-link-item">
                          <i class="fab fa-twitter"></i>
                     </a>
-                    <a href="https://instagram.com" target="_blank" class="text-gray-900 text-3xl p-3 rounded-full hover:bg-blue-600 hover:text-white transition-colors">
+                    <a href="https://instagram.com" target="_blank" class="social-link-item">
                          <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://ruiz-mar.github.io/docs/resume-design.html" target="_blank" class="social-link-item">
+                         <i class="fas fa-file-alt"></i> <!-- Icon for Resume -->
                     </a>
                 </div>
             </div>
@@ -564,17 +625,22 @@
                 if (!originalContent) return;
 
                 // Clear any existing cloned content before re-cloning
-                originalContent.querySelectorAll('.marquee-item.cloned-item').forEach(el => el.remove());
+                originalContent.querySelectorAll('.cloned-item').forEach(el => el.remove());
 
-                // Clone each item individually and append to create the seamless loop
-                // We need enough clones to fill the container and allow for seamless scrolling
+                // Clone enough items to ensure seamless loop
                 const items = Array.from(originalContent.children);
-                const numClones = Math.ceil(container.offsetWidth / items[0].offsetWidth) * 2; // Estimate enough clones
+                // Calculate how many times to clone to fill the container and ensure smooth loop
+                // A common strategy is to clone enough to fill the container twice
+                const totalWidth = items.reduce((sum, item) => sum + item.offsetWidth + parseFloat(getComputedStyle(item).marginLeft) + parseFloat(getComputedStyle(item).marginRight), 0);
+                const containerWidth = container.offsetWidth;
+                const numClonesNeeded = Math.ceil(containerWidth / totalWidth) * 2; // At least two full sets
 
-                for(let i = 0; i < items.length * 2; i++) { // Clone twice the original content
-                    const clonedItem = items[i % items.length].cloneNode(true);
-                    clonedItem.classList.add('cloned-item'); // Add a class to identify cloned items
-                    originalContent.appendChild(clonedItem);
+                for (let i = 0; i < numClonesNeeded; i++) {
+                    items.forEach(item => {
+                        const clonedItem = item.cloneNode(true);
+                        clonedItem.classList.add('cloned-item');
+                        originalContent.appendChild(clonedItem);
+                    });
                 }
                 
                 // Set CSS variables for animation
@@ -584,6 +650,12 @@
             // Initialize both marquee bars
             initializeMarquee('tools-marquee-container', 30); // Tools section
             initializeMarquee('brands-marquee-container', 40); // Brands section (slightly slower)
+
+            // Re-initialize marquees on window resize to adjust for new widths
+            window.addEventListener('resize', () => {
+                initializeMarquee('tools-marquee-container', 30);
+                initializeMarquee('brands-marquee-container', 40);
+            });
             
             // Toggle sitemap modal
             navToggle.addEventListener('click', () => {
