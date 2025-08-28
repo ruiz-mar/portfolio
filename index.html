@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mario Ruiz Portfolio</title>
+    <!-- Tailwind CSS CDN for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts for the "Inter" font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0A0A0A; /* Dark, cinematic background */
+            color: #E5E7EB; /* Light gray text for contrast */
+        }
+        /* Custom scrollbar for a smoother look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1F2937;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #4B5563;
+            border-radius: 4px;
+        }
+        .section-heading {
+            border-color: #3B82F6; /* Blue for headings */
+        }
+        .section-content {
+            background-color: #111827; /* Darker card background */
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        /* Sushi bar animation for tools and brands */
+        @keyframes scroll-left {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+        .sushi-bar-container {
+            display: flex;
+            white-space: nowrap;
+            overflow: hidden;
+            width: 100%;
+        }
+        .sushi-bar-content {
+            animation: scroll-left 30s linear infinite; /* Slightly increased speed */
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+            width: max-content;
+        }
+        .sushi-bar-content > * {
+            display: inline-block;
+        }
+        .project-card, .service-card {
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            background-color: #111827;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .project-card:hover, .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        .tool-item, .brand-item {
+            transition: transform 0.3s ease-in-out;
+            display: inline-block;
+            margin: 0 1rem;
+            text-align: center;
+        }
+        .tool-item:hover, .brand-item:hover {
+            transform: scale(1.1);
+        }
+        .modal {
+            background-color: rgba(10, 10, 10, 0.95);
+        }
+        /* CSS for the loading animation */
+        .loader {
+            width: 60px;
+            height: 60px;
+            border: 6px solid #4B5563;
+            border-bottom-color: #3B82F6;
+            border-radius: 50%;
+            display: inline-block;
+            box-sizing: border-box;
+            animation: rotation 1s linear infinite;
+        }
+        @keyframes rotation {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        /* Class for the fixed background video effect */
+        .fixed-video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: -1;
+            overflow: hidden;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .fixed-video-background iframe {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100vw;
+            height: 100vh;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+        }
+        /* Hide the scrollbars for the hero/video section to prevent grabbing */
+        .hide-scrollbar {
+            overflow: hidden;
+            -ms-overflow-style: none; /* IE and Edge */
+            scrollbar-width: none; /* Firefox */
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+</head>
+<body class="antialiased text-gray-200">
+
+    <!-- Fixed Navigation Bar -->
+    <nav class="fixed top-0 left-0 w-full bg-black bg-opacity-90 backdrop-blur-md z-50 shadow-md">
+        <div class="container mx-auto max-w-6xl flex justify-between items-center p-4">
+            <a href="#introduction" class="text-2xl font-bold text-gray-100 hover:text-blue-400 transition-colors">Mario Ruiz</a>
+            <div class="space-x-4 hidden md:flex">
+                <a href="#portfolio" class="text-gray-400 hover:text-blue-400 font-medium transition-colors">Works</a>
+                <a href="#offerings" class="text-gray-400 hover:text-blue-400 font-medium transition-colors">Services</a>
+                <a href="#blog" class="text-gray-400 hover:text-blue-400 font-medium transition-colors">Blog</a>
+                <a href="#contact" class="text-gray-400 hover:text-blue-400 font-medium transition-colors">Contact</a>
+            </div>
+            <!-- Hamburger Menu -->
+            <div id="nav-toggle" class="md:hidden p-2 rounded-full cursor-pointer z-50">
+                <i id="hamburger-icon" class="fas fa-bars text-xl text-white"></i>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Sitemap Modal -->
+    <div id="sitemap-modal" class="fixed inset-0 z-40 bg-black bg-opacity-90 backdrop-blur-md hidden transition-opacity duration-300 opacity-0 flex flex-col justify-center items-center">
+        <ul class="text-4xl font-bold text-center space-y-8">
+            <li><a href="#introduction" class="hover:text-blue-400 transition-colors sitemap-link">Home</a></li>
+            <li><a href="#portfolio" class="hover:text-blue-400 transition-colors sitemap-link">Works</a></li>
+            <li><a href="#offerings" class="hover:text-blue-400 transition-colors sitemap-link">Services</a></li>
+            <li><a href="#blog" class="hover:text-blue-400 transition-colors sitemap-link">Blog</a></li>
+            <li><a href="#contact" class="hover:text-blue-400 transition-colors sitemap-link">Contact</a></li>
+        </ul>
+    </div>
+
+    <main>
+        <!-- Masthead Section -->
+        <section id="masthead" class="w-full h-[60vh] md:h-[80vh] relative">
+            <!-- Loading message -->
+            <div id="video-loading" class="absolute inset-0 bg-black flex items-center justify-center z-10 hide-scrollbar">
+                <span class="loader"></span>
+            </div>
+            
+            <!-- Video will be loaded here. YouTube video provided by the user. -->
+            <div id="video-container" class="fixed-video-background">
+                <iframe id="showcase-video" src="https://www.youtube.com/embed/UxQC133KL7o?autoplay=1&mute=1&loop=1&playlist=UxQC133KL7o&controls=0&modestbranding=1&enablejsapi=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" class="w-full h-full absolute inset-0 hidden"></iframe>
+            </div>
+        </section>
+        
+        <!-- Introduction Section - Content is on top of the video -->
+        <section id="introduction" class="container mx-auto max-w-6xl p-4 sm:p-8 lg:p-12 text-center -mt-20 relative z-20">
+             <div class="rounded-3xl shadow-xl p-8 sm:p-12 section-content">
+                <h1 class="text-4xl sm:text-5xl lg:text-7xl font-bold mb-4">Mario Ruiz</h1>
+                <h2 class="text-xl sm:text-2xl font-light text-blue-300 mb-6">Designer, Product Developer & 3D Visualizer</h2>
+                <p class="text-base sm:text-lg max-w-2xl mx-auto text-gray-400 leading-relaxed">
+                    Passionate Industrial Designer crafting efficient, high-performing products that balance functionality, user experience, and form.
+                </p>
+            </div>
+        </section>
+        
+        <!-- Portfolio Section -->
+        <section id="portfolio" class="container mx-auto max-w-6xl p-4 sm:p-8 lg:p-12">
+            <h3 class="text-2xl sm:text-3xl font-bold text-gray-100 border-b-4 section-heading pb-2 mb-8">Featured Projects</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Project 1 -->
+                <div class="rounded-2xl shadow-lg overflow-hidden project-card cursor-pointer" 
+                data-images="assets/images/project1-image1.jpg,assets/images/project1-image2.jpg,assets/images/project1-image3.jpg,assets/images/project1-image4.jpg,assets/images/project1-image5.jpg"
+                data-descriptions="Description for Project 1 - Image 1,Description for Project 1 - Image 2,Description for Project 1 - Image 3,Description for Project 1 - Image 4,Description for Project 1 - Image 5">
+                    <img src="assets/images/project1-main.jpg" alt="Project 1" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h4 class="text-xl font-semibold mb-2 text-gray-100">Project Title</h4>
+                        <p class="text-gray-400 text-sm">A brief description of the project, highlighting your role and key accomplishments.</p>
+                    </div>
+                </div>
+                <!-- Project 2 -->
+                <div class="rounded-2xl shadow-lg overflow-hidden project-card cursor-pointer" 
+                data-images="assets/images/project2-image1.jpg,assets/images/project2-image2.jpg,assets/images/project2-image3.jpg,assets/images/project2-image4.jpg,assets/images/project2-image5.jpg"
+                data-descriptions="Description for Project 2 - Image 1,Description for Project 2 - Image 2,Description for Project 2 - Image 3,Description for Project 2 - Image 4,Description for Project 2 - Image 5">
+                    <img src="assets/images/project2-main.jpg" alt="Project 2" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h4 class="text-xl font-semibold mb-2 text-gray-100">Project Title</h4>
+                        <p class="text-gray-400 text-sm">A brief description of the project, highlighting your role and key accomplishments.</p>
+                    </div>
+                </div>
+                <!-- Project 3 -->
+                <div class="rounded-2xl shadow-lg overflow-hidden project-card cursor-pointer" 
+                data-images="assets/images/project3-image1.jpg,assets/images/project3-image2.jpg,assets/images/project3-image3.jpg,assets/images/project3-image4.jpg,assets/images/project3-image5.jpg"
+                data-descriptions="Description for Project 3 - Image 1,Description for Project 3 - Image 2,Description for Project 3 - Image 3,Description for Project 3 - Image 4,Description for Project 3 - Image 5">
+                    <img src="assets/images/project3-main.jpg" alt="Project 3" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h4 class="text-xl font-semibold mb-2 text-gray-100">Project Title</h4>
+                        <p class="text-gray-400 text-sm">A brief description of the project, highlighting your role and key accomplishments.</p>
+                    </div>
+                </div>
+                 <!-- Project 4 -->
+                <div class="rounded-2xl shadow-lg overflow-hidden project-card cursor-pointer" 
+                data-images="assets/images/project4-image1.jpg,assets/images/project4-image2.jpg,assets/images/project4-image3.jpg,assets/images/project4-image4.jpg,assets/images/project4-image5.jpg"
+                data-descriptions="Description for Project 4 - Image 1,Description for Project 4 - Image 2,Description for Project 4 - Image 3,Description for Project 4 - Image 4,Description for Project 4 - Image 5">
+                    <img src="assets/images/project4-main.jpg" alt="Project 4" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h4 class="text-xl font-semibold mb-2 text-gray-100">Project Title</h4>
+                        <p class="text-gray-400 text-sm">A brief description of the project, highlighting your role and key accomplishments.</p>
+                    </div>
+                </div>
+                 <!-- Project 5 -->
+                <div class="rounded-2xl shadow-lg overflow-hidden project-card cursor-pointer" 
+                data-images="assets/images/project5-image1.jpg,assets/images/project5-image2.jpg,assets/images/project5-image3.jpg,assets/images/project5-image4.jpg,assets/images/project5-image5.jpg"
+                data-descriptions="Description for Project 5 - Image 1,Description for Project 5 - Image 2,Description for Project 5 - Image 3,Description for Project 5 - Image 4,Description for Project 5 - Image 5">
+                    <img src="assets/images/project5-main.jpg" alt="Project 5" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h4 class="text-xl font-semibold mb-2 text-gray-100">Project Title</h4>
+                        <p class="text-gray-400 text-sm">A brief description of the project, highlighting your role and key accomplishments.</p>
+                    </div>
+                </div>
+                 <!-- Project 6 -->
+                <div class="rounded-2xl shadow-lg overflow-hidden project-card cursor-pointer" 
+                data-images="assets/images/project6-image1.jpg,assets/images/project6-image2.jpg,assets/images/project6-image3.jpg,assets/images/project6-image4.jpg,assets/images/project6-image5.jpg"
+                data-descriptions="Description for Project 6 - Image 1,Description for Project 6 - Image 2,Description for Project 6 - Image 3,Description for Project 6 - Image 4,Description for Project 6 - Image 5">
+                    <img src="assets/images/project6-main.jpg" alt="Project 6" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h4 class="text-xl font-semibold mb-2 text-gray-100">Project Title</h4>
+                        <p class="text-gray-400 text-sm">A brief description of the project, highlighting your role and key accomplishments.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Offerings Section -->
+        <section id="offerings" class="container mx-auto max-w-6xl p-4 sm:p-8 lg:p-12">
+            <h3 class="text-2xl sm:text-3xl font-bold text-gray-100 border-b-4 section-heading pb-2 mb-8">What I Offer</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Product Design & Development Card -->
+                <div class="rounded-2xl shadow-lg p-8 transform transition-transform hover:scale-105 service-card cursor-pointer" data-service="product-development">
+                    <i class="fas fa-drafting-compass text-5xl text-blue-400 mb-4"></i>
+                    <h4 class="text-2xl font-semibold mb-2 text-gray-100">Product Development</h4>
+                    <p class="text-gray-400">From concept to production-ready design, I manage the full product lifecycle, focusing on manufacturability, efficiency, and user-centered design.</p>
+                </div>
+                <!-- 3D Visualization Card -->
+                <div class="rounded-2xl shadow-lg p-8 transform transition-transform hover:scale-105 service-card cursor-pointer" data-service="3d-visualization">
+                    <i class="fas fa-cube text-5xl text-blue-400 mb-4"></i>
+                    <h4 class="text-2xl font-semibold mb-2 text-gray-100">3D Visualization</h4>
+                    <p class="text-gray-400">Creating photorealistic renders for a variety of needs, including architectural visualization, product visualization, and dynamic automotive renders.</p>
+                </div>
+                <!-- Design Consulting Card -->
+                <div class="rounded-2xl shadow-lg p-8 transform transition-transform hover:scale-105 service-card cursor-pointer" data-service="design-consulting">
+                    <i class="fas fa-handshake text-5xl text-blue-400 mb-4"></i>
+                    <h4 class="text-2xl font-semibold mb-2 text-gray-100">Design Consulting</h4>
+                    <p class="text-gray-400">Providing strategic guidance for startups and established companies on design strategy, project management, and continuous improvement methodologies.</p>
+                </div>
+                <!-- AI-Assisted Workflows Card -->
+                <div class="rounded-2xl shadow-lg p-8 transform transition-transform hover:scale-105 service-card cursor-pointer" data-service="ai-workflows">
+                    <i class="fas fa-robot text-5xl text-blue-400 mb-4"></i>
+                    <h4 class="text-2xl font-semibold mb-2 text-gray-100">AI-Assisted Workflows</h4>
+                    <p class="text-gray-400">Integrating cutting-edge AI tools to accelerate and enhance creative processes, from rapid concept generation to automated material studies and renderings.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section (Sushi Bar) -->
+        <section id="skills" class="container mx-auto max-w-6xl p-4 sm:p-8 lg:p-12 text-center">
+            <h3 class="text-2xl sm:text-3xl font-bold text-gray-100 border-b-4 section-heading pb-2 mb-8 inline-block">Tools I Use</h3>
+            <div class="sushi-bar-container py-4">
+                <div class="sushi-bar-content flex items-center w-full min-w-full">
+                    <div class="tool-item">
+                        <img src="assets/images/blender-logo.png" alt="Blender Logo" class="mx-auto w-20 h-20 sm:w-24 sm:h-24 mb-2">
+                        <span class="text-gray-400 text-sm">Blender</span>
+                    </div>
+                    <div class="tool-item">
+                        <img src="assets/images/unreal-engine-logo.png" alt="Unreal Engine Logo" class="mx-auto w-20 h-20 sm:w-24 sm:h-24 mb-2">
+                        <span class="text-gray-400 text-sm">Unreal Engine</span>
+                    </div>
+                    <div class="tool-item">
+                        <img src="assets/images/solidworks-logo.png" alt="SolidWorks Logo" class="mx-auto w-20 h-20 sm:w-24 sm:h-24 mb-2">
+                        <span class="text-gray-400 text-sm">SolidWorks</span>
+                    </div>
+                    <div class="tool-item">
+                        <img src="assets/images/rhino-logo.png" alt="Rhino Logo" class="mx-auto w-20 h-20 sm:w-24 sm:h-24 mb-2">
+                        <span class="text-gray-400 text-sm">Rhino</span>
+                    </div>
+                    <div class="tool-item">
+                        <img src="assets/images/sketchup-logo.png" alt="SketchUp Logo" class="mx-auto w-20 h-20 sm:w-24 sm:h-24 mb-2">
+                        <span class="text-gray-400 text-sm">SketchUp</span>
+                    </div>
+                    <div class="tool-item">
+                        <img src="assets/images/figma-logo.png" alt="Figma Logo" class="mx-auto w-20 h-20 sm:w-24 sm:h-24 mb-2">
+                        <span class="text-gray-400 text-sm">Figma</span>
+                    </div>
+                </div>
+                <div class="sushi-bar-content flex items-center w-full min-w-full">
+                    <div class="tool-item">
+                        <img src="assets/images/blender-logo.png" alt="Blender Logo" class="mx-auto w-20 h-20 sm:w-24 sm:h-24 mb-2">
+                        <span class="text-gray-400 text-sm">Blender</span>
+                    </div>
+                    <div class="tool-item">
+                        <img src="assets/images/unreal-engine-logo.png" alt="Unreal Engine Logo" class="mx-auto w-20 h-20 sm:w-24 sm:h-24 mb-2">
+                        <span class="text-gray-400 text-sm">Unreal Engine</span>
+                    </div>
+                    <div class="tool-item">
+                        <img src="assets/images/solidworks-logo.png" alt="SolidWorks Logo" class="mx-auto w-20 h-20 sm:w-24 sm:h-24 mb-2">
+                        <span class="text-gray-400 text-sm">SolidWorks</span>
+                    </div>
+                    <div class="tool-item">
+                        <img src="assets/images/rhino-logo.png" alt="Rhino Logo" class="mx-auto w-20 h-20 sm:w-24 sm:h-24 mb-2">
+                        <span class="text-gray-400 text-sm">Rhino</span>
+                    </div>
+                    <div class="tool-item">
+                        <img src="assets/images/sketchup-logo.png" alt="SketchUp Logo" class="mx-auto w-20 h-20 sm:w-24 sm:h-24 mb-2">
+                        <span class="text-gray-400 text-sm">SketchUp</span>
+                    </div>
+                    <div class="tool-item">
+                        <img src="assets/images/figma-logo.png" alt="Figma Logo" class="mx-auto w-20 h-20 sm:w-24 sm:h-24 mb-2">
+                        <span class="text-gray-400 text-sm">Figma</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Blog Section -->
+        <section id="blog" class="container mx-auto max-w-6xl p-4 sm:p-8 lg:p-12">
+            <h3 class="text-2xl sm:text-3xl font-bold text-gray-100 border-b-4 section-heading pb-2 mb-8">Thoughts & Insights</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Blog Post 1 -->
+                <a href="#" class="block transform transition-transform hover:scale-105">
+                    <div class="rounded-2xl shadow-lg overflow-hidden section-content">
+                        <img src="assets/images/blog-post1.jpg" alt="Blog Post 1" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h4 class="text-xl font-semibold mb-2 text-gray-100">The Future of Design & AI</h4>
+                            <p class="text-gray-400 text-sm">An in-depth look at how artificial intelligence is changing creative workflows and opening new possibilities in product design.</p>
+                        </div>
+                    </div>
+                </a>
+                <!-- Blog Post 2 -->
+                <a href="#" class="block transform transition-transform hover:scale-105">
+                    <div class="rounded-2xl shadow-lg overflow-hidden section-content">
+                        <img src="assets/images/blog-post2.jpg" alt="Blog Post 2" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h4 class="text-xl font-semibold mb-2 text-gray-100">From Sketch to Reality: A Manufacturing Case Study</h4>
+                            <p class="text-gray-400 text-sm">A behind-the-scenes look at the journey of a product from a simple sketch to a finished, mass-produced item.</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </section>
+        
+        <!-- Clients Section (Sushi Bar) -->
+        <section id="clients" class="container mx-auto max-w-6xl p-4 sm:p-8 lg:p-12 text-center">
+            <h3 class="text-2xl sm:text-3xl font-bold text-gray-100 border-b-4 section-heading pb-2 mb-8 inline-block">Brands I've Worked With</h3>
+            <div class="sushi-bar-container py-4">
+                <div class="sushi-bar-content flex items-center w-full min-w-full">
+                    <div class="brand-item">
+                        <img src="assets/images/mercedes-benz-logo.png" alt="Mercedes Benz Logo" class="mx-auto w-24 h-12 mb-2">
+                        <span class="text-gray-400 text-sm">Mercedes Benz</span>
+                    </div>
+                    <div class="brand-item">
+                        <img src="assets/images/magna-logo.png" alt="Magna Logo" class="mx-auto w-24 h-12 mb-2">
+                        <span class="text-gray-400 text-sm">Magna</span>
+                    </div>
+                    <div class="brand-item">
+                        <img src="assets/images/toyota-logo.png" alt="Toyota Logo" class="mx-auto w-24 h-12 mb-2">
+                        <span class="text-gray-400 text-sm">Toyota</span>
+                    </div>
+                    <div class="brand-item">
+                        <img src="assets/images/honda-logo.png" alt="Honda Logo" class="mx-auto w-24 h-12 mb-2">
+                        <span class="text-gray-400 text-sm">Honda</span>
+                    </div>
+                    <div class="brand-item">
+                        <img src="assets/images/ezobord-logo.png" alt="Ezobord Logo" class="mx-auto w-24 h-12 mb-2">
+                        <span class="text-gray-400 text-sm">Ezobord</span>
+                    </div>
+                    <div class="brand-item">
+                        <img src="assets/images/ayrsonics-logo.png" alt="Ayrsonics Logo" class="mx-auto w-24 h-12 mb-2">
+                        <span class="text-gray-400 text-sm">Ayrsonics</span>
+                    </div>
+                    <div class="brand-item">
+                        <img src="assets/images/the-quiet-room-logo.png" alt="The Quiet Room Logo" class="mx-auto w-24 h-12 mb-2">
+                        <span class="text-gray-400 text-sm">The Quiet Room</span>
+                    </div>
+                    <div class="brand-item">
+                        <img src="assets/images/renderland-logo.png" alt="Renderland Logo" class="mx-auto w-24 h-12 mb-2">
+                        <span class="text-gray-400 text-sm">Renderland</span>
+                    </div>
+                    <div class="brand-item">
+                        <img src="assets/images/borgo-logo.png" alt="Borgo Logo" class="mx-auto w-24 h-12 mb-2">
+                        <span class="text-gray-400 text-sm">Borgo</span>
+                    </div>
+                </div>
+                 <div class="sushi-bar-content flex items-center w-full min-w-full">
+                    <div class="brand-item">
+                        <img src="assets/images/mercedes-benz-logo.png" alt="Mercedes Benz Logo" class="mx-auto w-24 h-12 mb-2">
+                        <span class="text-gray-400 text-sm">Mercedes Benz</span>
+                    </div>
+                    <div class="brand-item">
+                        <img src="assets/images/magna-logo.png" alt="Magna Logo" class="mx-auto w-24 h-12 mb-2">
+                        <span class="text-gray-400 text-sm">Magna</span>
+                    </div>
+                    <div class="brand-item">
+                        <img src="assets/images/toyota-logo.png" alt="Toyota Logo" class="mx-auto w-24 h-12 mb-2">
+                        <span class="text-gray-400 text-sm">Toyota</span>
+                    </div>
+                    <div class="brand-item">
+                        <img src="assets/images/honda-logo.png" alt="Honda Logo" class="mx-auto w-24 h-12 mb-2">
+                        <span class="text-gray-400 text-sm">Honda</span>
+                    </div>
+                    <div class="brand-item">
+                        <img src="assets/images/ezobord-logo.png" alt="Ezobord Logo" class="mx-auto w-24 h-12 mb-2">
+                        <span class="text-gray-400 text-sm">Ezobord</span>
+                    </div>
+                    <div class="brand-item">
+                        <img src="assets/images/ayrsonics-logo.png" alt="Ayrsonics Logo" class="mx-auto w-24 h-12 mb-2">
+                        <span class="text-gray-400 text-sm">Ayrsonics</span>
+                    </div>
+                    <div class="brand-item">
+                        <img src="assets/images/the-quiet-room-logo.png" alt="The Quiet Room Logo" class="mx-auto w-24 h-12 mb-2">
+                        <span class="text-gray-400 text-sm">The Quiet Room</span>
+                    </div>
+                    <div class="brand-item">
+                        <img src="assets/images/renderland-logo.png" alt="Renderland Logo" class="mx-auto w-24 h-12 mb-2">
+                        <span class="text-gray-400 text-sm">Renderland</span>
+                    </div>
+                    <div class="brand-item">
+                        <img src="assets/images/borgo-logo.png" alt="Borgo Logo" class="mx-auto w-24 h-12 mb-2">
+                        <span class="text-gray-400 text-sm">Borgo</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sneak Peeks Section -->
+        <section id="sneak-peeks" class="container mx-auto max-w-6xl p-4 sm:p-8 lg:p-12">
+            <h3 class="text-2xl sm:text-3xl font-bold text-gray-100 border-b-4 section-heading pb-2 mb-8 inline-block">If you made it this far...</h3>
+            <p class="text-gray-400 text-base mb-6 max-w-2xl mx-auto">
+                These are sneak peeks of some of the projects I'm currently working on.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Sneak Peek Project 1 -->
+                <div class="rounded-2xl shadow-lg overflow-hidden project-card cursor-pointer" 
+                data-images="assets/images/sneak-peek-image1-1.jpg,assets/images/sneak-peek-image1-2.jpg"
+                data-descriptions="A futuristic vehicle design.,A closer look at the vehicle's interior.">
+                    <img src="assets/images/sneak-peek-main1.jpg" alt="Sneak Peek Project 1" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h4 class="text-xl font-semibold mb-2 text-gray-100">Project Alpha</h4>
+                        <p class="text-gray-400 text-sm">An ongoing exploration into next-generation mobility solutions.</p>
+                    </div>
+                </div>
+                <!-- Sneak Peek Project 2 -->
+                <div class="rounded-2xl shadow-lg overflow-hidden project-card cursor-pointer" 
+                data-images="assets/images/sneak-peek-image2-1.jpg,assets/images/sneak-peek-image2-2.jpg"
+                data-descriptions="A detailed architectural render.,A new concept for sustainable living spaces.">
+                    <img src="assets/images/sneak-peek-main2.jpg" alt="Sneak Peek Project 2" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h4 class="text-xl font-semibold mb-2 text-gray-100">Habitat 2077</h4>
+                        <p class="text-gray-400 text-sm">Developing modular, eco-friendly housing concepts for future cities.</p>
+                    </div>
+                </div>
+                <!-- Sneak Peek Project 3 -->
+                <div class="rounded-2xl shadow-lg overflow-hidden project-card cursor-pointer" 
+                data-images="assets/images/sneak-peek-image3-1.jpg,assets/images/sneak-peek-image3-2.jpg"
+                data-descriptions="VFX simulation of a complex system.,Exploring particle dynamics and rendering.">
+                    <img src="assets/images/sneak-peek-main3.jpg" alt="Sneak Peek Project 3" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h4 class="text-xl font-semibold mb-2 text-gray-100">Quantum Flow</h4>
+                        <p class="text-gray-400 text-sm">A VFX study focusing on advanced particle simulation and photorealistic effects.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="container mx-auto max-w-6xl p-4 sm:p-8 lg:p-12">
+            <h3 class="text-2xl sm:text-3xl font-bold text-gray-100 border-b-4 section-heading pb-2 mb-8">Get In Touch</h3>
+            <div class="rounded-2xl shadow-lg p-8 section-content">
+                <p class="text-gray-400 text-base mb-6 max-w-2xl">
+                    I'm currently available for new projects and collaborations. Feel free to reach out to me.
+                </p>
+                <div class="flex flex-wrap items-center justify-start md:justify-center gap-6">
+                    <a href="mailto:mr.ruiz624@gmail.com" class="text-white text-3xl p-3 rounded-full hover:bg-blue-600 transition-colors">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                     <a href="tel:+14378383936" class="text-white text-3xl p-3 rounded-full hover:bg-blue-600 transition-colors">
+                        <i class="fas fa-phone"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/in/marioruiz3d/" target="_blank" class="text-white text-3xl p-3 rounded-full hover:bg-blue-600 transition-colors">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="https://twitter.com" target="_blank" class="text-white text-3xl p-3 rounded-full hover:bg-blue-600 transition-colors">
+                         <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="https://instagram.com" target="_blank" class="text-white text-3xl p-3 rounded-full hover:bg-blue-600 transition-colors">
+                         <i class="fab fa-instagram"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Full-screen Modal/Lightbox for Image Viewing -->
+    <div id="image-modal" class="fixed inset-0 z-[100] modal hidden flex items-center justify-center transition-opacity duration-300 opacity-0">
+        <div class="absolute inset-0" id="modal-bg"></div>
+        <button id="modal-close" class="absolute top-4 right-4 text-white text-3xl z-[101]">&times;</button>
+        <div class="flex flex-col items-center justify-center max-w-[90vw] max-h-[90vh] relative z-[101]">
+            <button id="modal-prev" class="absolute left-4 top-1/2 -translate-y-1/2 text-white text-4xl p-2 z-[101] hidden"><i class="fas fa-chevron-left"></i></button>
+            <img id="modal-image" class="max-w-[80vw] max-h-[70vh] object-contain mb-4">
+            <div id="modal-description" class="text-center text-gray-400 bg-black bg-opacity-70 backdrop-blur-sm p-4 rounded-lg max-w-lg mx-auto">Description placeholder.</div>
+            <button id="modal-next" class="absolute right-4 top-1/2 -translate-y-1/2 text-white text-4xl p-2 z-[101] hidden"><i class="fas fa-chevron-right"></i></button>
+        </div>
+    </div>
+
+    <!-- Service Detail Modal -->
+    <div id="service-modal" class="fixed inset-0 z-[100] modal hidden flex items-center justify-center transition-opacity duration-300 opacity-0">
+        <div class="absolute inset-0" id="service-modal-bg"></div>
+        <div class="bg-black text-gray-200 rounded-3xl p-8 max-w-3xl max-h-[90vh] overflow-y-auto relative z-20 mx-4">
+            <button id="service-modal-close" class="absolute top-4 right-4 text-white text-3xl">&times;</button>
+            <div id="service-modal-content">
+                <h4 class="text-3xl font-bold mb-4 text-blue-400">Service Title Placeholder</h4>
+                <p class="mb-6 text-gray-400">Expanded description of the service goes here. This content can be as detailed as you need it to be. It can include specific skills, technologies, and project types.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                     <img src="assets/images/service-detail-placeholder1.jpg" alt="Service Image 1" class="w-full h-auto rounded-lg">
+                     <img src="assets/images/service-detail-placeholder2.jpg" alt="Service Image 2" class="w-full h-auto rounded-lg">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-black text-gray-500 text-center p-6 mt-12 border-t border-gray-900">
+        <p>&copy; 2025 Mario Ruiz. All Rights Reserved.</p>
+    </footer>
+
+    <!-- JavaScript for the video loading, image gallery, and service modals -->
+    <script>
+        // Load YouTube API script
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        let player;
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('showcase-video', {
+                videoId: 'UxQC133KL7o',
+                playerVars: {
+                    autoplay: 1,
+                    mute: 1,
+                    loop: 1,
+                    playlist: 'UxQC133KL7o',
+                    controls: 0,
+                    modestbranding: 1,
+                    enablejsapi: 1
+                },
+                events: {
+                    'onReady': onPlayerReady
+                }
+            });
+        }
+        
+        function onPlayerReady(event) {
+            const videoLoading = document.getElementById('video-loading');
+            const videoIframe = document.getElementById('showcase-video');
+            videoLoading.classList.add('hidden');
+            videoIframe.classList.remove('hidden');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const imageModal = document.getElementById('image-modal');
+            const modalImage = document.getElementById('modal-image');
+            const modalPrev = document.getElementById('modal-prev');
+            const modalNext = document.getElementById('modal-next');
+            const modalClose = document.getElementById('modal-close');
+            const modalDescription = document.getElementById('modal-description');
+            const projectItems = document.querySelectorAll('.project-card');
+
+            const serviceModal = document.getElementById('service-modal');
+            const serviceModalClose = document.getElementById('service-modal-close');
+            const serviceModalContent = document.getElementById('service-modal-content');
+            const serviceCards = document.querySelectorAll('.service-card');
+            
+            const introductionSection = document.getElementById('introduction');
+            const mastheadSection = document.getElementById('masthead');
+            const videoContainer = document.getElementById('video-container');
+
+            const sitemapModal = document.getElementById('sitemap-modal');
+            const navToggle = document.getElementById('nav-toggle');
+            const sitemapLinks = document.querySelectorAll('.sitemap-link');
+
+            let currentImageIndex = 0;
+            let currentImages = [];
+            let currentDescriptions = [];
+            
+            // Toggle sitemap modal
+            navToggle.addEventListener('click', () => {
+                sitemapModal.classList.toggle('hidden');
+                if (!sitemapModal.classList.contains('hidden')) {
+                    setTimeout(() => sitemapModal.classList.remove('opacity-0'), 10);
+                } else {
+                    sitemapModal.classList.add('opacity-0');
+                }
+            });
+            
+            // Close sitemap with Escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && !sitemapModal.classList.contains('hidden')) {
+                    sitemapModal.classList.add('opacity-0');
+                    setTimeout(() => sitemapModal.classList.add('hidden'), 300);
+                }
+            });
+            
+            // Close sitemap when a link is clicked
+            sitemapLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    sitemapModal.classList.add('opacity-0');
+                    setTimeout(() => sitemapModal.classList.add('hidden'), 300);
+                });
+            });
+
+            // Handle video visibility on scroll
+            window.addEventListener('scroll', () => {
+                const introductionRect = introductionSection.getBoundingClientRect();
+                const videoContainer = document.getElementById('video-container');
+
+                if (introductionRect.top < 0) {
+                    videoContainer.style.opacity = '0';
+                    videoContainer.classList.add('hidden');
+                } else {
+                    videoContainer.style.opacity = '1';
+                    videoContainer.classList.remove('hidden');
+                }
+            });
+
+            // Open the image modal when a project card is clicked
+            projectItems.forEach(item => {
+                item.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation(); 
+                    
+                    const imagesString = item.getAttribute('data-images');
+                    const descriptionsString = item.getAttribute('data-descriptions');
+                    
+                    if (imagesString) {
+                        currentImages = imagesString.split(',');
+                        currentDescriptions = descriptionsString.split(',');
+                        currentImageIndex = 0;
+                        updateImageModalContent();
+                        imageModal.classList.remove('hidden');
+                        setTimeout(() => imageModal.classList.remove('opacity-0'), 10);
+                        document.body.style.overflow = 'hidden';
+                    }
+                });
+            });
+
+            // Update the image in the image modal
+            const updateImageModalContent = () => {
+                if (currentImages.length > 0) {
+                    modalImage.src = currentImages[currentImageIndex];
+                    modalDescription.textContent = currentDescriptions[currentImageIndex];
+                    modalPrev.style.display = currentImageIndex > 0 ? 'block' : 'none';
+                    modalNext.style.display = currentImageIndex < currentImages.length - 1 ? 'block' : 'none';
+                }
+            };
+
+            // Close the image modal
+            const closeImageModal = () => {
+                imageModal.classList.add('opacity-0');
+                setTimeout(() => imageModal.classList.add('hidden'), 300);
+                document.body.style.overflow = 'auto';
+            };
+
+            // Event listeners for image modal navigation and close
+            modalPrev.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (currentImageIndex > 0) {
+                    currentImageIndex--;
+                    updateImageModalContent();
+                }
+            });
+
+            modalNext.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (currentImageIndex < currentImages.length - 1) {
+                    currentImageIndex++;
+                    updateImageModalContent();
+                }
+            });
+
+            modalClose.addEventListener('click', closeImageModal);
+            imageModal.addEventListener('click', (e) => {
+                if (e.target.id === 'image-modal' || e.target.id === 'modal-bg') {
+                    closeImageModal();
+                }
+            });
+
+            // Keyboard navigation for image modal
+            document.addEventListener('keydown', (e) => {
+                if (!imageModal.classList.contains('hidden')) {
+                    if (e.key === 'Escape') {
+                        closeImageModal();
+                    } else if (e.key === 'ArrowLeft') {
+                        if (currentImageIndex > 0) {
+                            currentImageIndex--;
+                            updateImageModalContent();
+                        }
+                    } else if (e.key === 'ArrowRight') {
+                        if (currentImageIndex < currentImages.length - 1) {
+                            currentImageIndex++;
+                            updateImageModalContent();
+                        }
+                    }
+                }
+            });
+
+             // Mouse wheel navigation for image modal
+             imageModal.addEventListener('wheel', (e) => {
+                if (!imageModal.classList.contains('hidden')) {
+                    if (e.deltaY > 0) {
+                        // Scroll down, go to next image
+                        if (currentImageIndex < currentImages.length - 1) {
+                            currentImageIndex++;
+                            updateImageModalContent();
+                        }
+                    } else {
+                        // Scroll up, go to previous image
+                        if (currentImageIndex > 0) {
+                            currentImageIndex--;
+                            updateImageModalContent();
+                        }
+                    }
+                }
+             });
+
+            // Service modal logic
+            serviceCards.forEach(card => {
+                card.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const serviceType = card.getAttribute('data-service');
+                    updateServiceModalContent(serviceType);
+                    serviceModal.classList.remove('hidden');
+                    setTimeout(() => serviceModal.classList.remove('opacity-0'), 10);
+                    document.body.style.overflow = 'hidden';
+                });
+            });
+            
+            // Populate service modal content based on clicked card
+            const updateServiceModalContent = (serviceType) => {
+                 let title = 'Service Title';
+                 let description = 'Expanded description.';
+                 let imageGrid = '';
+
+                 switch(serviceType) {
+                    case 'product-development':
+                        title = 'Product Development';
+                        description = 'This is an expanded description of my Product Development services. I specialize in taking a product from a conceptual idea all the way through to a market-ready, manufacturable design. My process includes ideation, sketching, CAD modeling, material selection, and collaborating with manufacturing partners to ensure a seamless and high-quality final product.';
+                        imageGrid = `
+                            <img src="assets/images/service-detail-placeholder1.jpg" alt="Product Development Image 1" class="w-full h-auto rounded-lg mb-4">
+                            <p class="text-gray-400 text-sm mb-4">This image shows a product concept in development.</p>
+                            <img src="assets/images/service-detail-placeholder2.jpg" alt="Product Development Image 2" class="w-full h-auto rounded-lg mb-4">
+                            <p class="text-gray-400 text-sm">This is a render of the finished product.</p>
+                        `;
+                        break;
+                    case '3d-visualization':
+                        title = '3D Visualization';
+                        description = 'My 3D visualization services cover a wide range of fields, including architectural, product, and automotive rendering. Using advanced software, I create photorealistic images and immersive virtual environments that bring designs to life and allow clients to see their projects in stunning detail before they are built.';
+                        imageGrid = `
+                            <img src="assets/images/service-detail-placeholder3.jpg" alt="3D Visualization Image 1" class="w-full h-auto rounded-lg mb-4">
+                            <p class="text-gray-400 text-sm mb-4">A sample of an architectural render.</p>
+                            <img src="assets/images/service-detail-placeholder4.jpg" alt="3D Visualization Image 2" class="w-full h-auto rounded-lg mb-4">
+                            <p class="text-gray-400 text-sm">A photorealistic product render.</p>
+                        `;
+                        break;
+                    case 'design-consulting':
+                        title = 'Design Consulting';
+                        description = 'As a design consultant, I work with startups and businesses to develop strategic design roadmaps. I provide guidance on user-centered design principles, project management, and integrating lean manufacturing techniques to optimize workflows and create products that meet both market demands and business goals.';
+                        imageGrid = `
+                            <img src="assets/images/service-detail-placeholder5.jpg" alt="Design Consulting Image 1" class="w-full h-auto rounded-lg mb-4">
+                            <p class="text-gray-400 text-sm mb-4">A project timeline visualization.</p>
+                            <img src="assets/images/service-detail-placeholder6.jpg" alt="Design Consulting Image 2" class="w-full h-auto rounded-lg mb-4">
+                            <p class="text-gray-400 text-sm">A diagram of a lean manufacturing workflow.</p>
+                        `;
+                        break;
+                    case 'ai-workflows':
+                        title = 'AI-Assisted Workflows';
+                        description = 'I leverage cutting-edge AI tools to enhance every stage of the design process. From rapid concept generation and ideation using image-synthesis AI to automated rendering and material studies, I integrate these technologies to accelerate timelines and explore a wider range of creative possibilities with unprecedented efficiency.';
+                        imageGrid = `
+                            <img src="assets/images/service-detail-placeholder7.jpg" alt="AI Workflow Image 1" class="w-full h-auto rounded-lg mb-4">
+                            <p class="text-gray-400 text-sm mb-4">A conceptual image created with an AI tool.</p>
+                            <img src="assets/images/service-detail-placeholder8.jpg" alt="AI Workflow Image 2" class="w-full h-auto rounded-lg mb-4">
+                            <p class="text-gray-400 text-sm">A high-quality render generated with AI assistance.</p>
+                        `;
+                        break;
+                 }
+
+                 serviceModalContent.innerHTML = `
+                    <h4 class="text-3xl font-bold mb-4 text-blue-400">${title}</h4>
+                    <p class="mb-6 text-gray-400">${description}</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        ${imageGrid}
+                    </div>
+                 `;
+            };
+
+            // Close service modal
+            const closeServiceModal = () => {
+                 serviceModal.classList.add('opacity-0');
+                 setTimeout(() => serviceModal.classList.add('hidden'), 300);
+                 document.body.style.overflow = 'auto';
+            };
+
+            serviceModalClose.addEventListener('click', closeServiceModal);
+            serviceModal.addEventListener('click', (e) => {
+                 if (e.target.id === 'service-modal' || e.target.id === 'service-modal-bg') {
+                     closeServiceModal();
+                 }
+            });
+
+            document.addEventListener('keydown', (e) => {
+                 if (e.key === 'Escape' && !serviceModal.classList.contains('hidden')) {
+                     closeServiceModal();
+                 }
+            });
+        });
+    </script>
+</body>
+</html>
