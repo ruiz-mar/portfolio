@@ -25,6 +25,15 @@
             img.replaceWith(box);
         }
         window.addEventListener('error', (e) => { if (e.target && e.target.tagName === 'IMG') mrImgFallback(e.target); }, true);
+        // Failsafe: always leave the intro screen, even if another script fails or is slow
+        function mrReveal(){
+            const lp = document.getElementById('landing-page');
+            const main = document.getElementById('main-portfolio-content');
+            if (lp && lp.style.display !== 'none') { lp.classList.add('fade-out'); setTimeout(() => { lp.style.display = 'none'; }, 500); }
+            if (main && main.classList.contains('hidden')) { main.classList.remove('hidden'); window.dispatchEvent(new Event('resize')); }
+        }
+        setTimeout(mrReveal, 4500);
+        document.addEventListener('click', (e) => { if (e.target.closest && e.target.closest('#landing-page')) mrReveal(); });
         document.addEventListener('DOMContentLoaded', () => {
             document.querySelectorAll('img').forEach(img => { if (img.complete && img.naturalWidth === 0) mrImgFallback(img); });
         });
@@ -778,7 +787,7 @@
                             setTimeout(() => {
                                 if (landingPage) landingPage.classList.add('fade-out');
                                 setTimeout(() => {
-                                    if (landingPage) landingPage.classList.add('hidden');
+                                    if (landingPage) { landingPage.classList.add('hidden'); landingPage.style.display = 'none'; }
                                     if (mainPortfolioContent) mainPortfolioContent.classList.remove('hidden');
                                     window.dispatchEvent(new Event('resize'));
                                 }, 500); // Matches fade-out transition duration
@@ -1214,6 +1223,3 @@
     </script>
 </body>
 </html>
-
-
-
