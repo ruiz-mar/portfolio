@@ -198,24 +198,31 @@
         }
         /* Class for the fixed background video effect */
         .fixed-video-background {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            z-index: -1;
+            position: absolute;
+            inset: 0;
+            z-index: 0;
             overflow: hidden;
-            transition: opacity 0.5s ease-in-out;
+            background: #0B1220;
         }
         .fixed-video-background iframe {
             position: absolute;
             top: 50%;
             left: 50%;
-            width: 100vw;
-            height: 100vh;
+            width: max(100vw, 142.3vh);
+            height: max(80vh, 56.25vw);
             transform: translate(-50%, -50%);
-            object-fit: cover;
+            pointer-events: none;
         }
+        #sound-toggle { position: absolute; right: 1.5rem; top: 5.5rem; z-index: 30; display: none; align-items: center; gap: 0.5rem; padding: 0.5rem 0.9rem; border: 1px solid rgba(226,232,240,0.5); border-radius: 0.4rem; background: rgba(11,18,32,0.6); color: #E5E7EB; font-size: 0.85rem; backdrop-filter: blur(4px); }
+        #sound-toggle:hover { border-color: #FF6F3C; color: #FFFFFF; }
+        #masthead.video-ready { cursor: pointer; }
+        #video-hint { position: absolute; left: 1.5rem; top: 5.5rem; z-index: 30; display: none; padding: 0.45rem 0.8rem; border-left: 2px solid #FF6F3C; background: rgba(11,18,32,0.6); color: #E5E7EB; font-size: 0.8rem; backdrop-filter: blur(4px); transition: opacity 0.4s ease; }
+        .fixed-video-background.video-expanded { position: fixed; inset: 0; z-index: 200; background: #000; cursor: zoom-out; }
+        .fixed-video-background.video-expanded iframe { width: min(100vw, 177.78vh); height: min(100vh, 56.25vw); }
+        #video-close-hint { position: fixed; top: 1.25rem; right: 1.5rem; z-index: 201; display: none; padding: 0.45rem 0.8rem; border: 1px solid rgba(226,232,240,0.5); border-radius: 0.4rem; background: rgba(0,0,0,0.6); color: #E5E7EB; font-size: 0.8rem; }
+        body.video-open #video-close-hint { display: block; }
+        body.video-open { overflow: hidden; }
+        body.video-open #sound-toggle { position: fixed; top: 1.25rem; right: auto; left: 1.5rem; z-index: 201; }
         /* Hide the scrollbars for the hero/video section to prevent grabbing */
         .hide-scrollbar {
             overflow: hidden;
@@ -368,7 +375,7 @@
         #landing-page { overflow: hidden; background-color: #0B1220; }
         .landing-text-container { position: relative; z-index: 2; }
         #video-loading { transition: opacity 0.8s ease; }
-        #video-loading.hud-overlay { background: transparent !important; pointer-events: none; opacity: 0.55; }
+        #video-loading.hud-overlay { background: transparent !important; pointer-events: none; opacity: 0.45; }
         .tool-chip { display: inline-block; padding: 0.6rem 1.1rem; border: 1px solid rgba(125,211,252,0.35); border-radius: 0.4rem; color: #E5E7EB; font-size: 0.95rem; white-space: nowrap; }
         .marquee-item img[data-fallback] + span { display: inline-block; padding: 0.6rem 1.1rem; border: 1px solid rgba(125,211,252,0.35); border-radius: 0.4rem; color: #E5E7EB !important; }
         .mr-monogram { display: inline-flex; align-items: center; justify-content: center; width: 2rem; height: 2rem; border: 2px solid #1F2937; font-size: 0.8rem; font-weight: 800; letter-spacing: 0.04em; }
@@ -433,8 +440,10 @@
             </div>
             
             <!-- Video will be loaded here. YouTube video provided by the user. -->
+            <div id="video-hint">Hover to play, double click to expand</div>
+            <button id="sound-toggle" type="button" aria-label="Turn video sound on"><i class="fas fa-volume-xmark"></i><span>Sound on</span></button>
             <div id="video-container" class="fixed-video-background">
-                <iframe id="showcase-video" src="https://www.youtube.com/embed/UxQC133KL7o?autoplay=1&mute=1&loop=1&playlist=UxQC133KL7o&controls=0&modestbranding=1&enablejsapi=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" class="w-full h-full absolute inset-0 hidden"></iframe>
+                <iframe id="showcase-video" src="https://www.youtube.com/embed/UxQC133KL7o?autoplay=1&mute=1&loop=1&playlist=UxQC133KL7o&controls=0&modestbranding=1&enablejsapi=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" ></iframe>
             </div>
         </section>
         
@@ -683,6 +692,8 @@
 
     </main>
 
+    <button id="video-close-hint" type="button">Press Esc or double click to close</button>
+
     <!-- Full-screen Modal/Lightbox for Image Viewing -->
     <div id="image-modal" class="fixed inset-0 z-[100] modal hidden flex items-center justify-center transition-opacity duration-300 opacity-0">
         <div class="absolute inset-0" id="modal-bg"></div>
@@ -740,11 +751,49 @@
             });
         }
         
-        function onPlayerReady(event) {
+        function mrVideoOn() {
             const videoLoading = document.getElementById('video-loading');
-            const videoIframe = document.getElementById('showcase-video');
-            videoIframe.classList.remove('hidden');
-            videoLoading.classList.add('hud-overlay');
+            if (videoLoading) videoLoading.classList.add('hud-overlay');
+            if (window.mrMastheadHUD) window.mrMastheadHUD.setBackground(false);
+        }
+        function onPlayerReady(event) {
+            mrVideoOn();
+            try { event.target.mute(); event.target.pauseVideo(); } catch (err) {}
+            const masthead = document.getElementById('masthead');
+            const vc = document.getElementById('video-container');
+            const hint = document.getElementById('video-hint');
+            const closeHint = document.getElementById('video-close-hint');
+            const isExpanded = () => vc.classList.contains('video-expanded');
+            masthead.classList.add('video-ready');
+            if (hint) hint.style.display = 'block';
+            const play = () => { try { player.playVideo(); } catch (err) {} if (hint) hint.style.opacity = '0'; };
+            const pause = () => { if (!isExpanded()) { try { player.pauseVideo(); } catch (err) {} if (hint) hint.style.opacity = '1'; } };
+            const expand = () => { vc.classList.add('video-expanded'); document.body.classList.add('video-open'); play(); };
+            const shrink = () => { vc.classList.remove('video-expanded'); document.body.classList.remove('video-open'); if (!masthead.matches(':hover')) pause(); };
+            masthead.addEventListener('mouseenter', play);
+            masthead.addEventListener('mouseleave', pause);
+            masthead.addEventListener('dblclick', (e) => { if (e.target.closest('#sound-toggle')) return; expand(); });
+            vc.addEventListener('dblclick', () => { if (isExpanded()) shrink(); });
+            if (closeHint) closeHint.addEventListener('click', shrink);
+            document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && isExpanded()) shrink(); });
+            // Touch screens: tap to play or pause
+            masthead.addEventListener('touchend', () => {
+                try { player.getPlayerState() === 1 ? player.pauseVideo() : player.playVideo(); } catch (err) {}
+            }, { passive: true });
+            const btn = document.getElementById('sound-toggle');
+            if (!btn) return;
+            btn.style.display = 'inline-flex';
+            btn.addEventListener('click', () => {
+                if (player.isMuted()) {
+                    player.unMute(); player.setVolume(60); player.playVideo();
+                    btn.innerHTML = '<i class="fas fa-volume-high"></i><span>Sound off</span>';
+                    btn.setAttribute('aria-label', 'Turn video sound off');
+                } else {
+                    player.mute();
+                    btn.innerHTML = '<i class="fas fa-volume-xmark"></i><span>Sound on</span>';
+                    btn.setAttribute('aria-label', 'Turn video sound on');
+                }
+            });
         }
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -891,21 +940,8 @@
                 });
             });
 
-            // Handle video visibility on scroll
-            window.addEventListener('scroll', () => {
-                const introductionRect = introductionSection.getBoundingClientRect();
-                const videoContainer = document.getElementById('video-container');
+            // Video now lives inside the header and scrolls away naturally
 
-                // If scrolled past the introduction section, hide the video container
-                if (introductionRect.top < 0) {
-                    videoContainer.style.opacity = '0';
-                    videoContainer.classList.add('hidden'); // Fully hide it to prevent interaction/rendering
-                } else {
-                    // If within or above the introduction section, show the video container
-                    videoContainer.style.opacity = '1';
-                    videoContainer.classList.remove('hidden');
-                }
-            });
 
             // Open the image modal when a project card is clicked
             projectItems.forEach(item => {
@@ -1201,7 +1237,7 @@
             }
             resize(); window.addEventListener('resize', resize);
             if (reduce){ spawn(0); jets.forEach(j=>{ j.x = w*0.4; }); frame(0); } else { requestAnimationFrame(frame); }
-            return { stop(){ running = false; } };
+            return { stop(){ running = false; }, setBackground(v){ opts.background = v; } };
         };
     })();
     </script>
@@ -1214,7 +1250,7 @@
             if (m && window.startHUD) {
                 const mo = new MutationObserver(() => {
                     const main = document.getElementById('main-portfolio-content');
-                    if (main && !main.classList.contains('hidden')) { window.startHUD(m, { top: 72, bottom: 70 }); mo.disconnect(); }
+                    if (main && !main.classList.contains('hidden')) { window.mrMastheadHUD = window.startHUD(m, { top: 72, bottom: 70 }); mo.disconnect(); }
                 });
                 mo.observe(document.getElementById('main-portfolio-content'), { attributes: true });
             }
