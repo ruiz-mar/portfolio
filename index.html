@@ -42,133 +42,322 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #FFFFFF;
-            color: #1F2937;
+            background-color: #FFFFFF; /* Overall white background */
+            color: #1F2937; /* Dark gray text for contrast */
         }
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #E5E7EB; }
-        ::-webkit-scrollbar-thumb { background: #9CA3AF; border-radius: 4px; }
+        /* Custom scrollbar for a smoother look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #E5E7EB;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #9CA3AF;
+            border-radius: 4px;
+        }
+        /* Section heading styling - no full-width background, text color adjusted per section */
         .section-heading {
-            border-color: #3B82F6;
-            display: inline-block;
-            padding-bottom: 0.5rem;
-            font-weight: 700;
+            border-color: #3B82F6; /* Blue for headings underline */
+            display: inline-block; /* To make border fit text */
+            padding-bottom: 0.5rem; /* Space for the underline */
+            font-weight: 700; /* Bold text */
         }
-        .section-text { color: #1F2937; }
-        .dark-section .section-text { color: #E5E7EB; }
-        #skills, #clients, #contact { background-color: #0A0A0A; }
-        #about, #portfolio, #offerings { background-color: #FFFFFF; }
-        #introduction h1, #introduction h2, #introduction p { color: #E5E7EB; }
-        #about .section-heading, #portfolio .section-heading, #offerings .section-heading { color: #1F2937; }
-        #skills .section-heading, #clients .section-heading, #contact .section-heading { color: #FFFFFF; }
-        #about p, #portfolio p, #offerings p { color: #1F2937; }
-        #skills .marquee-item span, #clients .marquee-item span { color: #E5E7EB; }
-        #contact p { color: #E5E7EB; }
+        /* Default text color for sections */
+        .section-text {
+            color: #1F2937; /* Dark text for light sections */
+        }
+        /* Text color for dark sections */
+        .dark-section .section-text {
+            color: #E5E7EB; /* Light text for dark sections */
+        }
+
+        /* Section backgrounds */
+        /* Masthead and Introduction will have video background */
+        /* Skills, Clients, Contact will be dark */
+        #skills, #clients, #contact {
+            background-color: #0A0A0A; /* Dark sections */
+        }
+        /* About, Portfolio, Offerings, Blog, Sneak Peeks will be light */
+        #about, #portfolio, #offerings, #blog, #sneak-peeks {
+            background-color: #FFFFFF; /* Light sections */
+        }
+
+        /* Adjust text colors within sections based on their background */
+        #introduction h1, #introduction h2, #introduction p {
+            color: #E5E7EB; /* Light text for intro over video */
+        }
+        /* Headings in light sections */
+        #about .section-heading, #portfolio .section-heading, #offerings .section-heading, #blog .section-heading, #sneak-peeks .section-heading {
+            color: #1F2937; /* Dark text for titles in light sections */
+        }
+        /* Headings in dark sections */
+        #skills .section-heading, #clients .section-heading, #contact .section-heading {
+            color: #FFFFFF; /* White text for titles in dark sections */
+        }
+        /* Body text in light sections */
+        #about p, #portfolio p, #offerings p, #blog p, #sneak-peeks p {
+            color: #1F2937; /* Dark text for body in light sections */
+        }
+        /* Body text in dark sections */
+        #skills .marquee-item span, #clients .marquee-item span {
+            color: #E5E7EB; /* Light text for marquee items in dark sections */
+        }
+        #contact p {
+            color: #E5E7EB; /* Light text for contact body in dark sections */
+        }
+        
+        /* Default section content background for light theme */
         .section-content {
-            background-color: #F9FAFB;
-            border: none;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+            background-color: #F9FAFB; /* Very light gray for content sections */
+            border: none; /* Removed border */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03); /* Subtle shadow */
         }
+        /* Introduction section content should be transparent */
         #introduction .section-content {
             background-color: #0B1220;
             box-shadow: 0 20px 40px rgba(11, 18, 32, 0.25);
         }
+
+        /* Marquee animation for tools and brands */
         @keyframes marquee-scroll {
-            0% { transform: translateX(0%); }
-            100% { transform: translateX(-50%); }
+            0% {
+                transform: translateX(0%);
+            }
+            100% {
+                transform: translateX(-50%); /* Animate to -50% of its own width */
+            }
         }
-        .marquee-container { display: flex; width: 100%; overflow: hidden; position: relative; }
-        .marquee-content { display: flex; flex-shrink: 0; animation: marquee-scroll var(--marquee-duration) linear infinite; }
-        .marquee-item { flex-shrink: 0; margin: 0 1.5rem; text-align: center; padding: 0.5rem 0; transition: transform 0.3s ease-in-out; }
-        .marquee-item:hover { transform: scale(1.1); }
-        .marquee-item img { display: block; margin: 0 auto 0.5rem auto; }
+        .marquee-container {
+            display: flex;
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+        .marquee-content {
+            display: flex;
+            flex-shrink: 0;
+            animation: marquee-scroll var(--marquee-duration) linear infinite;
+        }
+        .marquee-item {
+            flex-shrink: 0;
+            margin: 0 1.5rem; /* Space between items */
+            text-align: center;
+            padding: 0.5rem 0;
+            transition: transform 0.3s ease-in-out;
+        }
+        .marquee-item:hover {
+            transform: scale(1.1);
+        }
+        .marquee-item img {
+            display: block;
+            margin: 0 auto 0.5rem auto;
+        }
+
         .project-card, .service-card {
             transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-            border: none;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
-            background-color: #F9FAFB;
+            border: none; /* Removed border */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03); /* Subtle shadow */
+            background-color: #F9FAFB; /* Light background for cards */
         }
         .project-card:hover, .service-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+            transform: translateY(-8px); /* Lift more on hover */
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15); /* More pronounced shadow on hover */
         }
-        .modal { background-color: rgba(255, 255, 255, 0.95); color: #1F2937; }
+        .modal {
+            background-color: rgba(255, 255, 255, 0.95); /* Light modal background */
+            color: #1F2937; /* Dark text for modals */
+        }
+        /* CSS for the loading animation */
+        .loader {
+            width: 60px;
+            height: 60px;
+            border: 6px solid #D1D5DB; /* Lighter border for loader */
+            border-bottom-color: #3B82F6; /* Blue accent */
+            border-radius: 50%;
+            display: inline-block;
+            box-sizing: border-box;
+            animation: rotation 1s linear infinite;
+        }
+        @keyframes rotation {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        /* Class for the fixed background video effect */
         .fixed-video-background {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
-            z-index: -1; overflow: hidden; transition: opacity 0.5s ease-in-out;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: -1;
+            overflow: hidden;
+            transition: opacity 0.5s ease-in-out;
         }
         .fixed-video-background iframe {
-            position: absolute; top: 50%; left: 50%; width: 100vw; height: 100vh;
-            transform: translate(-50%, -50%); object-fit: cover;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100vw;
+            height: 100vh;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
         }
-        .hide-scrollbar { overflow: hidden; -ms-overflow-style: none; scrollbar-width: none; }
-        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        /* Hide the scrollbars for the hero/video section to prevent grabbing */
+        .hide-scrollbar {
+            overflow: hidden;
+            -ms-overflow-style: none; /* IE and Edge */
+            scrollbar-width: none; /* Firefox */
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        /* Custom styling for the Mario Ruiz name in introduction */
         .mario-ruiz-title {
-            background: linear-gradient(90deg, #3B82F6, #60A5FA);
+            background: linear-gradient(90deg, #3B82F6, #60A5FA); /* Blue gradient */
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             color: transparent;
-            font-weight: 800;
-            letter-spacing: -0.02em;
+            font-weight: 800; /* Extra bold */
+            letter-spacing: -0.02em; /* Slight letter spacing adjustment */
         }
         .social-link-item {
-            display: flex; align-items: center; justify-content: center;
-            width: 48px; height: 48px; border-radius: 50%;
-            background-color: #1F2937; color: #E5E7EB; font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px; /* Fixed width for circular background */
+            height: 48px; /* Fixed height for circular background */
+            border-radius: 50%;
+            background-color: #1F2937; /* Dark gray background */
+            color: #E5E7EB; /* Light icon color */
+            font-size: 1.5rem; /* Icon size */
             transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
         }
-        .social-link-item:hover { background-color: #3B82F6; color: #FFFFFF; }
+        .social-link-item:hover {
+            background-color: #3B82F6; /* Blue on hover */
+            color: #FFFFFF; /* White icon on hover */
+        }
+        /* Sitemap modal specific styling for fun */
         .sitemap-modal-content {
-            background-image: url('https://www.transparenttextures.com/patterns/cubes.png');
-            background-color: rgba(10, 10, 10, 0.9);
+            background-image: url('https://www.transparenttextures.com/patterns/cubes.png'); /* Subtle background pattern */
+            background-color: rgba(10, 10, 10, 0.9); /* Darker, slightly less opaque */
             backdrop-filter: blur(8px);
         }
         .sitemap-link {
             transition: transform 0.2s ease-out, color 0.2s ease-out;
-            display: inline-block; padding: 0.5rem 1rem; border-radius: 0.5rem; color: #E5E7EB;
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            color: #E5E7EB; /* Light text for sitemap links */
         }
-        .sitemap-link:hover { transform: scale(1.05); color: #3B82F6; }
+        .sitemap-link:hover {
+            transform: scale(1.05);
+            color: #3B82F6; /* Blue on hover */
+        }
+        /* Animation for sitemap links */
         @keyframes slideInFadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
-        .sitemap-modal-link-animation { animation: slideInFadeIn 0.4s ease-out forwards; opacity: 0; }
+        .sitemap-modal-link-animation {
+            animation: slideInFadeIn 0.4s ease-out forwards;
+            opacity: 0; /* Hidden by default */
+        }
+        /* Adjust animation delays for staggered effect */
         .sitemap-modal-link-animation:nth-child(1) { animation-delay: 0.1s; }
         .sitemap-modal-link-animation:nth-child(2) { animation-delay: 0.2s; }
         .sitemap-modal-link-animation:nth-child(3) { animation-delay: 0.3s; }
         .sitemap-modal-link-animation:nth-child(4) { animation-delay: 0.4s; }
         .sitemap-modal-link-animation:nth-child(5) { animation-delay: 0.5s; }
         .sitemap-modal-link-animation:nth-child(6) { animation-delay: 0.6s; }
+        .sitemap-modal-link-animation:nth-child(7) { animation-delay: 0.7s; }
+        .sitemap-modal-link-animation:nth-child(8) { animation-delay: 0.8s; }
+
+        /* Landing Page Styles */
         #landing-page {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background-color: #0B1220; z-index: 1000;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            transition: opacity 0.5s ease-out; color: #FFFFFF; overflow: hidden;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #1A1A1A; /* Dark gray for landing page */
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s ease-out;
+            color: #FFFFFF;
         }
-        #landing-page.fade-out { opacity: 0; pointer-events: none; }
-        @keyframes blink-static-caret { from, to { opacity: 0; } 50% { opacity: 1; } }
+        #landing-page.fade-out {
+            opacity: 0;
+            pointer-events: none; /* Disable interactions after fade out */
+        }
+        /* Animation for the blinking caret */
+        @keyframes blink-static-caret {
+            from, to { opacity: 0; }
+            50% { opacity: 1; }
+        }
         .landing-text-container {
-            display: flex; align-items: center; justify-content: center;
-            white-space: nowrap; overflow: hidden; width: fit-content; font-size: 4rem;
-            position: relative; z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            white-space: nowrap;
+            overflow: hidden;
+            width: fit-content; /* Adjust width to fit content */
+            font-size: 4rem; /* Base size for responsiveness */
         }
-        .landing-name-text { font-weight: bold; text-transform: uppercase; color: #FFFFFF; }
+        .landing-name-text {
+            font-weight: bold;
+            text-transform: uppercase;
+            color: #FFFFFF;
+        }
         .landing-caret {
-            display: inline-block; color: orange; font-weight: bold; vertical-align: middle;
-            animation: blink-static-caret .75s step-end infinite; margin: 0 1rem; height: 1em;
+            display: inline-block;
+            color: orange;
+            font-weight: bold;
+            vertical-align: middle;
+            animation: blink-static-caret .75s step-end infinite;
+            margin: 0 1rem; /* Space around the caret */
+            height: 1em; /* Ensure consistent height */
         }
-        .landing-portfolio-text { font-weight: bold; text-transform: uppercase; color: #FFFFFF; }
-        @media (max-width: 768px) {
-            .landing-text-container { font-size: 3rem; }
-            .landing-caret { margin: 0 0.5rem; }
+        .landing-portfolio-text {
+            font-weight: bold;
+            text-transform: uppercase;
+            color: #FFFFFF;
         }
-        @media (max-width: 480px) {
-            .landing-text-container { font-size: 2.5rem; }
-            .landing-caret { margin: 0 0.3rem; }
+        /* Responsive adjustments for landing page text */
+        @media (max-width: 768px) { /* Adjust for smaller screens */
+            .landing-text-container {
+                font-size: 3rem;
+            }
+            .landing-caret {
+                margin: 0 0.5rem;
+            }
+        }
+        @media (max-width: 480px) { /* Even smaller screens */
+            .landing-text-container {
+                font-size: 2.5rem;
+            }
+            .landing-caret {
+                margin: 0 0.3rem;
+            }
         }
         /* HUD canvas and fallbacks */
         .hud-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+        #landing-page { overflow: hidden; background-color: #0B1220; }
+        .landing-text-container { position: relative; z-index: 2; }
         #video-loading { transition: opacity 0.8s ease; }
         #video-loading.hud-overlay { background: transparent !important; pointer-events: none; opacity: 0.55; }
         .tool-chip { display: inline-block; padding: 0.6rem 1.1rem; border: 1px solid rgba(125,211,252,0.35); border-radius: 0.4rem; color: #E5E7EB; font-size: 0.95rem; white-space: nowrap; }
@@ -203,8 +392,11 @@
                     <a href="#offerings" class="text-gray-600 hover:text-blue-600 font-medium transition-colors">Services</a>
                     <a href="#skills" class="text-gray-600 hover:text-blue-600 font-medium transition-colors">Toolkit</a>
                     <a href="#contact" class="text-gray-600 hover:text-blue-600 font-medium transition-colors">Contact</a>
+                    <a href="https://ruiz-mar.github.io/resume/" target="_blank" rel="noopener noreferrer" class="text-gray-600 hover:text-blue-600 font-medium transition-colors">Resume</a>
+                    <a href="https://www.linkedin.com/in/marioruiz3d/" target="_blank" rel="noopener noreferrer" class="text-gray-600 hover:text-blue-600 font-medium transition-colors">LinkedIn</a>
                 </div>
             </div>
+            <!-- Hamburger Menu (always visible) -->
             <div id="nav-toggle" class="p-2 rounded-full cursor-pointer z-50 md:ml-auto">
                 <i id="hamburger-icon" class="fas fa-bars text-xl text-orange-500"></i>
             </div>
@@ -223,18 +415,21 @@
         </ul>
     </div>
 
-    <main id="main-portfolio-content" class="hidden">
+    <main id="main-portfolio-content" class="hidden"> <!-- Main content hidden until landing page fades -->
         <!-- Masthead Section -->
         <section id="masthead" class="w-full h-[60vh] md:h-[80vh] relative">
+            <!-- Loading message -->
             <div id="video-loading" class="absolute inset-0 z-10 hide-scrollbar" style="background:#0B1220">
                 <canvas id="masthead-hud" class="hud-canvas" aria-hidden="true"></canvas>
             </div>
+            
+            <!-- Video will be loaded here. YouTube video provided by the user. -->
             <div id="video-container" class="fixed-video-background">
                 <iframe id="showcase-video" src="https://www.youtube.com/embed/UxQC133KL7o?autoplay=1&mute=1&loop=1&playlist=UxQC133KL7o&controls=0&modestbranding=1&enablejsapi=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" class="w-full h-full absolute inset-0 hidden"></iframe>
             </div>
         </section>
         
-        <!-- Introduction Section -->
+        <!-- Introduction Section - Content is on top of the video -->
         <section id="introduction" class="container mx-auto max-w-6xl p-4 sm:p-8 lg:p-12 text-center -mt-20 relative z-20 scroll-mt-20">
              <div class="rounded-3xl shadow-xl p-8 sm:p-12 section-content">
                 <h1 class="text-4xl sm:text-5xl lg:text-7xl font-bold mb-4 mario-ruiz-title">Mario Ruiz</h1>
@@ -242,12 +437,13 @@
                 <p class="text-base sm:text-lg max-w-2xl mx-auto leading-relaxed mb-8">
                     Defence soft goods, technical textiles, and mission critical equipment, taken from concept through testing and production.
                 </p>
+                <!-- Social Media Links -->
                 <div class="flex flex-wrap items-center justify-center gap-4">
                     <a href="https://www.linkedin.com/in/marioruiz3d/" target="_blank" class="social-link-item">
                         <i class="fab fa-linkedin"></i>
                     </a>
                     <a href="https://ruiz-mar.github.io/resume/" target="_blank" class="social-link-item">
-                         <i class="fas fa-file-alt"></i>
+                         <i class="fas fa-file-alt"></i> <!-- Icon for Resume -->
                     </a>
                     <a href="mailto:mr.ruiz624@gmail.com" class="social-link-item">
                         <i class="fas fa-envelope"></i>
@@ -258,7 +454,7 @@
 
         <!-- About Section -->
         <section id="about" class="container mx-auto max-w-6xl p-4 sm:p-8 lg:p-12 scroll-mt-20">
-            <div class="pb-2 mb-8">
+            <div class="pb-2 mb-8"> <!-- Container for heading -->
                 <h3 class="text-2xl sm:text-3xl font-bold section-heading">About Me</h3>
             </div>
             <div class="rounded-3xl shadow-xl p-8 sm:p-12 section-content grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
@@ -278,7 +474,7 @@
         
         <!-- Portfolio Section -->
         <section id="portfolio" class="container mx-auto max-w-6xl p-4 sm:p-8 lg:p-12 scroll-mt-20">
-            <div class="pb-2 mb-8">
+            <div class="pb-2 mb-8"> <!-- Container for heading -->
                 <h3 class="text-2xl sm:text-3xl font-bold section-heading">Featured Projects</h3>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -335,9 +531,689 @@
 
         <!-- Offerings Section -->
         <section id="offerings" class="container mx-auto max-w-6xl p-4 sm:p-8 lg:p-12 scroll-mt-20">
-            <div class="pb-2 mb-8">
+            <div class="pb-2 mb-8"> <!-- Container for heading -->
                 <h3 class="text-2xl sm:text-3xl font-bold section-heading">Services & Offerings</h3>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Product Design & Development Card -->
                 <div class="rounded-2xl shadow-lg p-8 transform transition-transform hover:scale-105 service-card cursor-pointer" data-service="product-development">
-                    <i class="fas fa-drafting-compass text-5xl
+                    <i class="fas fa-drafting-compass text-5xl text-blue-600 mb-4"></i>
+                    <h4 class="text-2xl font-semibold mb-2">Product Development</h4>
+                    <p class="text-base">From concept to production-ready design, I manage the full product lifecycle, focusing on manufacturability, efficiency, and user-centered design.</p>
+                </div>
+                <!-- 3D Visualization Card -->
+                <div class="rounded-2xl shadow-lg p-8 transform transition-transform hover:scale-105 service-card cursor-pointer" data-service="3d-visualization">
+                    <i class="fas fa-cube text-5xl text-blue-600 mb-4"></i>
+                    <h4 class="text-2xl font-semibold mb-2">3D Visualization</h4>
+                    <p class="text-base">Creating photorealistic renders for a variety of needs, including architectural visualization, product visualization, and dynamic automotive renders.</p>
+                </div>
+                <!-- Design Consulting Card -->
+                <div class="rounded-2xl shadow-lg p-8 transform transition-transform hover:scale-105 service-card cursor-pointer" data-service="design-consulting">
+                    <i class="fas fa-handshake text-5xl text-blue-600 mb-4"></i>
+                    <h4 class="text-2xl font-semibold mb-2">Design Consulting</h4>
+                    <p class="text-base">Providing strategic guidance for startups and established companies on design strategy, project management, and continuous improvement methodologies.</p>
+                </div>
+                <!-- AI-Assisted Workflows Card -->
+                <div class="rounded-2xl shadow-lg p-8 transform transition-transform hover:scale-105 service-card cursor-pointer" data-service="ai-workflows">
+                    <i class="fas fa-robot text-5xl text-blue-600 mb-4"></i>
+                    <h4 class="text-2xl font-semibold mb-2">AI-Assisted Workflows</h4>
+                    <p class="text-base">Integrating cutting-edge AI tools to accelerate and enhance creative processes, from rapid concept generation to automated material studies and renderings.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section (Creative Arsenal) -->
+        <section id="skills" class="container mx-auto max-w-6xl p-4 sm:p-8 lg:p-12 scroll-mt-20">
+            <div class="pb-2 mb-8"> <!-- Container for heading -->
+                <h3 class="text-2xl sm:text-3xl font-bold section-heading">Creative Arsenal</h3>
+            </div>
+            <div class="marquee-container py-4" id="tools-marquee-container">
+                <div class="marquee-content">
+                    <div class="marquee-item"><span class="tool-chip">SolidWorks</span></div>
+                    <div class="marquee-item"><span class="tool-chip">Rhino</span></div>
+                    <div class="marquee-item"><span class="tool-chip">Fusion 360</span></div>
+                    <div class="marquee-item"><span class="tool-chip">Adobe Illustrator</span></div>
+                    <div class="marquee-item"><span class="tool-chip">Photoshop</span></div>
+                    <div class="marquee-item"><span class="tool-chip">KeyShot</span></div>
+                    <div class="marquee-item"><span class="tool-chip">Blender</span></div>
+                    <div class="marquee-item"><span class="tool-chip">Gerber AccuMark</span></div>
+                    <div class="marquee-item"><span class="tool-chip">CLO 3D</span></div>
+                    <div class="marquee-item"><span class="tool-chip">Macola ERP</span></div>
+                    <div class="marquee-item"><span class="tool-chip">Microsoft Excel</span></div>
+                    <div class="marquee-item"><span class="tool-chip">Copilot</span></div>
+                    <div class="marquee-item"><span class="tool-chip">Vizcom</span></div>
+                    <div class="marquee-item"><span class="tool-chip">Krea</span></div>
+                </div>
+            </div>
+        </section>
+
+        
+        
+        <!-- Clients Section (Collaborations) -->
+        <section id="clients" class="container mx-auto max-w-6xl p-4 sm:p-8 lg:p-12 text-center scroll-mt-20">
+            <div class="pb-2 mb-8"> <!-- Container for heading -->
+                <h3 class="text-2xl sm:text-3xl font-bold section-heading">Collaborations</h3>
+            </div>
+            <div class="marquee-container py-4" id="brands-marquee-container">
+                <div class="marquee-content">
+                    <div class="marquee-item">
+                        <img src="assets/images/tulmar-logo.png" alt="Tulmar Logo" class="mx-auto w-24 h-12 mb-2">
+                        <span class="text-gray-700 text-sm">Tulmar Safety Systems</span>
+                    </div>
+                    <div class="marquee-item">
+                        <img src="assets/images/mercedes-benz-logo.png" alt="Mercedes Benz Logo" class="mx-auto w-24 h-12 mb-2">
+                        <span class="text-gray-700 text-sm">Mercedes Benz</span>
+                    </div>
+                    <div class="marquee-item">
+                        <img src="assets/images/magna-logo.png" alt="Magna Logo" class="mx-auto w-24 h-12 mb-2">
+                        <span class="text-gray-700 text-sm">Magna</span>
+                    </div>
+                    <div class="marquee-item">
+                        <img src="assets/images/toyota-logo.png" alt="Toyota Logo" class="mx-auto w-24 h-12 mb-2">
+                        <span class="text-gray-700 text-sm">Toyota</span>
+                    </div>
+                    <div class="marquee-item">
+                        <img src="assets/images/honda-logo.png" alt="Honda Logo" class="mx-auto w-24 h-12 mb-2">
+                        <span class="text-gray-700 text-sm">Honda</span>
+                    </div>
+                    <div class="marquee-item">
+                        <img src="assets/images/ezobord-logo.png" alt="Ezobord Logo" class="mx-auto w-24 h-12 mb-2">
+                        <span class="text-gray-700 text-sm">Ezobord</span>
+                    </div>
+                    <div class="marquee-item">
+                        <img src="assets/images/ayrsonics-logo.png" alt="Ayrsonics Logo" class="mx-auto w-24 h-12 mb-2">
+                        <span class="text-gray-700 text-sm">Ayrsonics</span>
+                    </div>
+                    <div class="marquee-item">
+                        <img src="assets/images/the-quiet-room-logo.png" alt="The Quiet Room Logo" class="mx-auto w-24 h-12 mb-2">
+                        <span class="text-gray-700 text-sm">The Quiet Room</span>
+                    </div>
+                    <div class="marquee-item">
+                        <img src="assets/images/renderland-logo.png" alt="Renderland Logo" class="mx-auto w-24 h-12 mb-2">
+                        <span class="text-gray-700 text-sm">Renderland</span>
+                    </div>
+                    <div class="marquee-item">
+                        <img src="assets/images/borgo-logo.png" alt="Borgo Logo" class="mx-auto w-24 h-12 mb-2">
+                        <span class="text-gray-700 text-sm">Borgo</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        
+
+        <!-- Contact Section -->
+        <section id="contact" class="container mx-auto max-w-6xl p-4 sm:p-8 lg:p-12 scroll-mt-20 bg-black text-white">
+            <div class="pb-2 mb-8"> <!-- Container for heading -->
+                <h3 class="text-2xl sm:text-3xl font-bold section-heading">Get In Touch</h3>
+            </div>
+            <div class="text-center"> <!-- This div now contains the contact content -->
+                <p class="text-base mb-6 max-w-2xl mx-auto">
+                    Open to product development roles and collaborations in defence, technical textiles, and soft goods.
+                </p>
+                <div class="flex flex-wrap items-center justify-start md:justify-center gap-6">
+                    <a href="mailto:mr.ruiz624@gmail.com" class="social-link-item">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                     <a href="tel:+14378783936" class="social-link-item">
+                        <i class="fas fa-phone"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/in/marioruiz3d/" target="_blank" class="social-link-item">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    
+                    <a href="https://ruiz-mar.github.io/resume/" target="_blank" class="social-link-item">
+                         <i class="fas fa-file-alt"></i> <!-- Icon for Resume -->
+                    </a>
+                </div>
+            </div>
+            <div class="text-center text-gray-400 text-sm mt-12">
+                <p>&copy; 2026 Mario Ruiz. All Rights Reserved.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Full-screen Modal/Lightbox for Image Viewing -->
+    <div id="image-modal" class="fixed inset-0 z-[100] modal hidden flex items-center justify-center transition-opacity duration-300 opacity-0">
+        <div class="absolute inset-0" id="modal-bg"></div>
+        <button id="modal-close" class="absolute top-4 right-4 text-white text-3xl z-[101]">&times;</button>
+        <div class="flex flex-col items-center justify-center max-w-[90vw] max-h-[90vh] relative z-[101]">
+            <button id="modal-prev" class="absolute left-4 top-1/2 -translate-y-1/2 text-white text-4xl p-2 z-[101] hidden"><i class="fas fa-chevron-left"></i></button>
+            <img id="modal-image" class="max-w-[80vw] max-h-[70vh] object-contain mb-4">
+            <div id="modal-description" class="text-center text-gray-200 bg-black bg-opacity-70 backdrop-blur-sm p-4 rounded-lg max-w-lg mx-auto">Description placeholder.</div>
+            <button id="modal-next" class="absolute right-4 top-1/2 -translate-y-1/2 text-white text-4xl p-2 z-[101] hidden"><i class="fas fa-chevron-right"></i></button>
+        </div>
+    </div>
+
+    <!-- Service Detail Modal -->
+    <div id="service-modal" class="fixed inset-0 z-[100] modal hidden flex items-center justify-center transition-opacity duration-300 opacity-0">
+        <div class="absolute inset-0" id="service-modal-bg"></div>
+        <div class="bg-white text-gray-800 rounded-3xl p-8 max-w-3xl max-h-[90vh] overflow-y-auto relative z-20 mx-4">
+            <button id="service-modal-close" class="absolute top-4 right-4 text-gray-900 text-3xl">&times;</button>
+            <div id="service-modal-content">
+                <h4 class="text-3xl font-bold mb-4 text-blue-600">Service Title Placeholder</h4>
+                <p class="mb-6 text-gray-700">Expanded description of the service goes here. This content can be as detailed as you need it to be. It can include specific skills, technologies, and project types.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                     <img src="assets/images/service-detail-placeholder1.jpg" alt="Service Image 1" class="w-full h-auto rounded-lg">
+                     <img src="assets/images/service-detail-placeholder2.jpg" alt="Service Image 2" class="w-full h-auto rounded-lg">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="hidden"></footer> <!-- Footer is now integrated into contact section -->
+
+    <!-- JavaScript for the video loading, image gallery, and service modals -->
+    <script>
+        // Load YouTube API script
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        let player;
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('showcase-video', {
+                videoId: 'UxQC133KL7o',
+                playerVars: {
+                    autoplay: 1,
+                    mute: 1,
+                    loop: 1,
+                    playlist: 'UxQC133KL7o',
+                    controls: 0,
+                    modestbranding: 1,
+                    enablejsapi: 1
+                },
+                events: {
+                    'onReady': onPlayerReady
+                }
+            });
+        }
+        
+        function onPlayerReady(event) {
+            const videoLoading = document.getElementById('video-loading');
+            const videoIframe = document.getElementById('showcase-video');
+            videoIframe.classList.remove('hidden');
+            videoLoading.classList.add('hud-overlay');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const landingPage = document.getElementById('landing-page');
+            const mainPortfolioContent = document.getElementById('main-portfolio-content');
+            const landingNameElement = document.getElementById('landing-name-element');
+            const landingCaretElement = document.getElementById('landing-caret-element');
+            const landingPortfolioElement = document.getElementById('landing-portfolio-element');
+
+            // Initial state: Hide caret and portfolio text
+            if (landingCaretElement) landingCaretElement.style.opacity = '0';
+            if (landingPortfolioElement) landingPortfolioElement.textContent = ''; // Clear text content for typing
+            
+            // Animation sequence for landing page
+            // Phase 1: Mario Ruiz is already visible (static)
+            setTimeout(() => {
+                // Phase 2: Show blinking caret
+                if (landingCaretElement) landingCaretElement.style.opacity = '1';
+                setTimeout(() => {
+                    // Phase 3: Start typing PORTFOLIO
+                    const portfolioText = "PORTFOLIO";
+                    let charIndex = 0;
+                    const typingInterval = 100; // milliseconds per character
+
+                    const typePortfolio = setInterval(() => {
+                        if (charIndex < portfolioText.length) {
+                            if (landingPortfolioElement) landingPortfolioElement.textContent += portfolioText.charAt(charIndex);
+                            charIndex++;
+                        } else {
+                            clearInterval(typePortfolio);
+                            // After typing portfolio, hide its typing caret (implicitly done by stopping interval)
+                            
+                            // Stop the separator caret blinking
+                            if (landingCaretElement) {
+                                landingCaretElement.style.animation = 'none';
+                                landingCaretElement.style.opacity = '0'; // Hide the separator caret
+                            }
+                            
+                            // Phase 4: Fade out landing page
+                            setTimeout(() => {
+                                if (landingPage) landingPage.classList.add('fade-out');
+                                setTimeout(() => {
+                                    if (landingPage) landingPage.classList.add('hidden');
+                                    if (mainPortfolioContent) mainPortfolioContent.classList.remove('hidden');
+                                    window.dispatchEvent(new Event('resize'));
+                                }, 500); // Matches fade-out transition duration
+                            }, 500); // Small delay before fading out
+                        }
+                    }, typingInterval);
+                }, 500); // Show caret after 0.5s
+            }, 500); // Start sequence after 0.5s initial text display
+
+
+            const imageModal = document.getElementById('image-modal');
+            const modalImage = document.getElementById('modal-image');
+            const modalPrev = document.getElementById('modal-prev');
+            const modalNext = document.getElementById('modal-next');
+            const modalClose = document.getElementById('modal-close');
+            const modalDescription = document.getElementById('modal-description');
+            const projectItems = document.querySelectorAll('.project-card');
+
+            const serviceModal = document.getElementById('service-modal');
+            const serviceModalClose = document.getElementById('service-modal-close');
+            const serviceModalContent = document.getElementById('service-modal-content');
+            const serviceCards = document.querySelectorAll('.service-card');
+            
+            const introductionSection = document.getElementById('introduction');
+            const mastheadSection = document.getElementById('masthead');
+            const videoContainer = document.getElementById('video-container');
+
+            const sitemapModal = document.getElementById('sitemap-modal');
+            const navToggle = document.getElementById('nav-toggle');
+            const sitemapLinks = document.querySelectorAll('.sitemap-link');
+
+            let currentImageIndex = 0;
+            let currentImages = [];
+            let currentDescriptions = [];
+
+            // Function to initialize seamless marquee animations
+            const initializeMarquee = (containerId, speedSeconds) => {
+                const container = document.getElementById(containerId);
+                if (!container) return;
+
+                const originalContent = container.querySelector('.marquee-content');
+                if (!originalContent) return;
+
+                // Clear any existing cloned content before re-cloning
+                originalContent.querySelectorAll('.cloned-item').forEach(el => el.remove());
+
+                // Clone enough items to ensure seamless loop
+                const items = Array.from(originalContent.children);
+                // Calculate how many times to clone to fill the container and ensure smooth loop
+                // A common strategy is to clone enough to fill the container twice
+                const totalWidth = items.reduce((sum, item) => sum + item.offsetWidth + parseFloat(getComputedStyle(item).marginLeft) + parseFloat(getComputedStyle(item).marginRight), 0);
+                const containerWidth = container.offsetWidth;
+                if (!totalWidth) return;
+                const numClonesNeeded = Math.ceil(containerWidth / totalWidth) * 2; // At least two full sets
+
+                for (let i = 0; i < numClonesNeeded; i++) {
+                    items.forEach(item => {
+                        const clonedItem = item.cloneNode(true);
+                        clonedItem.classList.add('cloned-item');
+                        originalContent.appendChild(clonedItem);
+                    });
+                }
+                
+                // Set CSS variables for animation
+                container.style.setProperty('--marquee-duration', `${speedSeconds}s`);
+            };
+
+            // Initialize both marquee bars
+            initializeMarquee('tools-marquee-container', 30); // Tools section
+            initializeMarquee('brands-marquee-container', 40); // Brands section (slightly slower)
+
+            // Re-initialize marquees on window resize to adjust for new widths
+            window.addEventListener('resize', () => {
+                initializeMarquee('tools-marquee-container', 30);
+                initializeMarquee('brands-marquee-container', 40);
+            });
+            
+            // Toggle sitemap modal
+            navToggle.addEventListener('click', () => {
+                sitemapModal.classList.toggle('hidden');
+                if (!sitemapModal.classList.contains('hidden')) {
+                    setTimeout(() => sitemapModal.classList.remove('opacity-0'), 10);
+                } else {
+                    sitemapModal.classList.add('opacity-0');
+                }
+            });
+            
+            // Close sitemap with Escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && !sitemapModal.classList.contains('hidden')) {
+                    sitemapModal.classList.add('opacity-0');
+                    setTimeout(() => sitemapModal.classList.add('hidden'), 300);
+                }
+            });
+            
+            // Close sitemap when a link is clicked
+            sitemapLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    sitemapModal.classList.add('opacity-0');
+                    setTimeout(() => sitemapModal.classList.add('hidden'), 300);
+                });
+            });
+
+            // Handle video visibility on scroll
+            window.addEventListener('scroll', () => {
+                const introductionRect = introductionSection.getBoundingClientRect();
+                const videoContainer = document.getElementById('video-container');
+
+                // If scrolled past the introduction section, hide the video container
+                if (introductionRect.top < 0) {
+                    videoContainer.style.opacity = '0';
+                    videoContainer.classList.add('hidden'); // Fully hide it to prevent interaction/rendering
+                } else {
+                    // If within or above the introduction section, show the video container
+                    videoContainer.style.opacity = '1';
+                    videoContainer.classList.remove('hidden');
+                }
+            });
+
+            // Open the image modal when a project card is clicked
+            projectItems.forEach(item => {
+                item.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation(); 
+                    
+                    const imagesString = item.getAttribute('data-images');
+                    const descriptionsString = item.getAttribute('data-descriptions');
+                    
+                    if (imagesString) {
+                        currentImages = imagesString.split(',');
+                        currentDescriptions = descriptionsString.split(',');
+                        currentImageIndex = 0;
+                        updateImageModalContent();
+                        imageModal.classList.remove('hidden');
+                        setTimeout(() => imageModal.classList.remove('opacity-0'), 10);
+                        document.body.style.overflow = 'hidden';
+                    }
+                });
+            });
+
+            // Update the image in the image modal
+            const updateImageModalContent = () => {
+                if (currentImages.length > 0) {
+                    modalImage.src = currentImages[currentImageIndex];
+                    modalDescription.textContent = currentDescriptions[currentImageIndex];
+                    modalPrev.style.display = currentImageIndex > 0 ? 'block' : 'none';
+                    modalNext.style.display = currentImageIndex < currentImages.length - 1 ? 'block' : 'none';
+                }
+            };
+
+            // Close the image modal
+            const closeImageModal = () => {
+                imageModal.classList.add('opacity-0');
+                setTimeout(() => imageModal.classList.add('hidden'), 300);
+                document.body.style.overflow = 'auto';
+            };
+
+            // Event listeners for image modal navigation and close
+            modalPrev.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (currentImageIndex > 0) {
+                    currentImageIndex--;
+                    updateImageModalContent();
+                }
+            });
+
+            modalNext.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (currentImageIndex < currentImages.length - 1) {
+                    currentImageIndex++;
+                    updateImageModalContent();
+                }
+            });
+
+            modalClose.addEventListener('click', closeImageModal);
+            imageModal.addEventListener('click', (e) => {
+                if (e.target.id === 'image-modal' || e.target.id === 'modal-bg') {
+                    closeImageModal();
+                }
+            });
+
+            // Keyboard navigation for image modal
+            document.addEventListener('keydown', (e) => {
+                if (!imageModal.classList.contains('hidden')) {
+                    if (e.key === 'Escape') {
+                        closeImageModal();
+                    } else if (e.key === 'ArrowLeft') {
+                        if (currentImageIndex > 0) {
+                            currentImageIndex--;
+                            updateImageModalContent();
+                        }
+                    } else if (e.key === 'ArrowRight') {
+                        if (currentImageIndex < currentImages.length - 1) {
+                            currentImageIndex++;
+                            updateImageModalContent();
+                        }
+                    }
+                }
+            });
+
+             // Mouse wheel navigation for image modal
+             imageModal.addEventListener('wheel', (e) => {
+                if (!imageModal.classList.contains('hidden')) {
+                    if (e.deltaY > 0) {
+                        // Scroll down, go to next image
+                        if (currentImageIndex < currentImages.length - 1) {
+                            currentImageIndex++;
+                            updateImageModalContent();
+                        }
+                    } else {
+                        // Scroll up, go to previous image
+                        if (currentImageIndex > 0) {
+                            currentImageIndex--;
+                            updateImageModalContent();
+                        }
+                    }
+                }
+             });
+
+            // Service modal logic
+            serviceCards.forEach(card => {
+                card.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const serviceType = card.getAttribute('data-service');
+                    updateServiceModalContent(serviceType);
+                    serviceModal.classList.remove('hidden');
+                    setTimeout(() => serviceModal.classList.remove('opacity-0'), 10);
+                    document.body.style.overflow = 'hidden';
+                });
+            });
+            
+            // Populate service modal content based on clicked card
+            const updateServiceModalContent = (serviceType) => {
+                 let title = 'Service Title';
+                 let description = 'Expanded description.';
+                 let imageGrid = '';
+
+                 switch(serviceType) {
+                    case 'product-development':
+                        title = 'Product Development';
+                        description = 'This is an expanded description of my Product Development services. I specialize in taking a product from a conceptual idea all the way through to a market-ready, manufacturable design. My process includes ideation, sketching, CAD modeling, material selection, and collaborating with manufacturing partners to ensure a seamless and high-quality final product.';
+                        imageGrid = '';
+                        break;
+                    case '3d-visualization':
+                        title = '3D Visualization';
+                        description = 'My 3D visualization services cover a wide range of fields, including architectural, product, and automotive rendering. Using advanced software, I create photorealistic images and immersive virtual environments that bring designs to life and allow clients to see their projects in stunning detail before they are built.';
+                        imageGrid = '';
+                        break;
+                    case 'design-consulting':
+                        title = 'Design Consulting';
+                        description = 'As a design consultant, I work with startups and businesses to develop strategic design roadmaps. I provide guidance on user-centered design principles, project management, and integrating lean manufacturing techniques to optimize workflows and create products that meet both market demands and business goals.';
+                        imageGrid = '';
+                        break;
+                    case 'ai-workflows':
+                        title = 'AI-Assisted Workflows';
+                        description = 'I leverage cutting-edge AI tools to enhance every stage of the design process. From rapid concept generation and ideation using image-synthesis AI to automated rendering and material studies, I integrate these technologies to accelerate timelines and explore a wider range of creative possibilities with unprecedented efficiency.';
+                        imageGrid = '';
+                        break;
+                 }
+
+                 serviceModalContent.innerHTML = `
+                    <h4 class="text-3xl font-bold mb-4 text-blue-600">${title}</h4>
+                    <p class="mb-6 text-gray-700">${description}</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        ${imageGrid}
+                    </div>
+                 `;
+            };
+
+            // Close service modal
+            const closeServiceModal = () => {
+                 serviceModal.classList.add('opacity-0');
+                 setTimeout(() => serviceModal.classList.add('hidden'), 300);
+                 document.body.style.overflow = 'auto';
+            };
+
+            serviceModalClose.addEventListener('click', closeServiceModal);
+            serviceModal.addEventListener('click', (e) => {
+                 if (e.target.id === 'service-modal' || e.target.id === 'service-modal-bg') {
+                     closeServiceModal();
+                 }
+            });
+
+            document.addEventListener('keydown', (e) => {
+                 if (e.key === 'Escape' && !serviceModal.classList.contains('hidden')) {
+                     closeServiceModal();
+                 }
+            });
+        });
+    </script>
+    <script>
+    // Tactical HUD animation: grid, radar sweep, fighter jets on straight flight paths
+    (function(){
+        const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        function jetPath(ctx, s){
+            ctx.beginPath();
+            ctx.moveTo(1.00*s, 0);
+            ctx.lineTo(0.35*s, 0.10*s);
+            ctx.lineTo(-0.10*s, 0.62*s);
+            ctx.lineTo(-0.30*s, 0.62*s);
+            ctx.lineTo(-0.18*s, 0.14*s);
+            ctx.lineTo(-0.55*s, 0.12*s);
+            ctx.lineTo(-0.72*s, 0.32*s);
+            ctx.lineTo(-0.82*s, 0.32*s);
+            ctx.lineTo(-0.74*s, 0);
+            ctx.lineTo(-0.82*s, -0.32*s);
+            ctx.lineTo(-0.72*s, -0.32*s);
+            ctx.lineTo(-0.55*s, -0.12*s);
+            ctx.lineTo(-0.18*s, -0.14*s);
+            ctx.lineTo(-0.30*s, -0.62*s);
+            ctx.lineTo(-0.10*s, -0.62*s);
+            ctx.lineTo(0.35*s, -0.10*s);
+            ctx.closePath();
+        }
+        window.startHUD = function(canvas, opts){
+            opts = Object.assign({ background: true, top: 0, bottom: 0 }, opts || {});
+            const ctx = canvas.getContext('2d');
+            let w = 0, h = 0, dpr = Math.min(window.devicePixelRatio || 1, 2);
+            let jets = [], lastSpawn = 0, sweep = 0, running = true;
+            function resize(){
+                const r = canvas.getBoundingClientRect();
+                w = r.width; h = r.height;
+                canvas.width = Math.max(1, w*dpr); canvas.height = Math.max(1, h*dpr);
+                ctx.setTransform(dpr,0,0,dpr,0,0);
+            }
+            function spawn(t){
+                const fromLeft = Math.random() < 0.6;
+                const angle = (fromLeft ? -1 : 1) * (0.18 + Math.random()*0.22);
+                const dir = fromLeft ? 1 : -1;
+                const y0 = h*(0.25 + Math.random()*0.6);
+                const lead = { x: fromLeft ? -80 : w+80, y: y0, vx: dir*(w/3.2), vy: Math.tan(angle)*(w/3.2)*-1, size: 16 + Math.random()*8, born: t, trail: [] };
+                jets.push(lead);
+                if (Math.random() < 0.55) {
+                    jets.push(Object.assign({}, lead, { x: lead.x - dir*46, y: lead.y + 28, size: lead.size*0.85, trail: [] }));
+                }
+            }
+            function drawGrid(){
+                ctx.strokeStyle = 'rgba(125, 211, 252, 0.06)';
+                ctx.lineWidth = 1;
+                const step = 56;
+                ctx.beginPath();
+                for (let x = (w%step)/2; x < w; x += step){ ctx.moveTo(x,0); ctx.lineTo(x,h); }
+                for (let y = (h%step)/2; y < h; y += step){ ctx.moveTo(0,y); ctx.lineTo(w,y); }
+                ctx.stroke();
+            }
+            function drawBrackets(){
+                const m = 22, L = 26;
+                ctx.strokeStyle = 'rgba(226, 232, 240, 0.55)';
+                ctx.lineWidth = 1.5;
+                ctx.beginPath();
+                [[m,m+opts.top,1,1],[w-m,m+opts.top,-1,1],[m,h-m-opts.bottom,1,-1],[w-m,h-m-opts.bottom,-1,-1]].forEach(([x,y,sx,sy])=>{
+                    ctx.moveTo(x, y+sy*L); ctx.lineTo(x,y); ctx.lineTo(x+sx*L, y);
+                });
+                ctx.stroke();
+            }
+            function drawRadar(){
+                const R = Math.min(w,h)*0.22, cx = w - R - 40, cy = h - R - 40;
+                ctx.strokeStyle = 'rgba(125, 211, 252, 0.18)';
+                ctx.lineWidth = 1;
+                for (let i=1;i<=3;i++){ ctx.beginPath(); ctx.arc(cx,cy,R*i/3,0,Math.PI*2); ctx.stroke(); }
+                ctx.beginPath(); ctx.moveTo(cx-R,cy); ctx.lineTo(cx+R,cy); ctx.moveTo(cx,cy-R); ctx.lineTo(cx,cy+R); ctx.stroke();
+                const g = ctx.createConicGradient ? ctx.createConicGradient(sweep - 0.9, cx, cy) : null;
+                if (g){
+                    g.addColorStop(0, 'rgba(125,211,252,0)');
+                    g.addColorStop(0.14, 'rgba(125,211,252,0.22)');
+                    g.addColorStop(0.1433, 'rgba(125,211,252,0)');
+                    ctx.fillStyle = g;
+                    ctx.beginPath(); ctx.moveTo(cx,cy); ctx.arc(cx,cy,R,0,Math.PI*2); ctx.fill();
+                }
+                ctx.strokeStyle = 'rgba(125,211,252,0.6)';
+                ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+Math.cos(sweep)*R, cy+Math.sin(sweep)*R); ctx.stroke();
+            }
+            function drawTelemetry(t){
+                ctx.font = '11px Inter, Arial, sans-serif';
+                ctx.fillStyle = 'rgba(226, 232, 240, 0.55)';
+                const hdg = String(Math.floor((t/60)%360)).padStart(3,'0');
+                ctx.fillText('HDG ' + hdg + '   ALT 32,000 FT   SPD M0.92', 34, h - 30 - opts.bottom);
+                ctx.fillText('43.33 N  79.80 W', 34, 44+opts.top);
+                ctx.fillStyle = 'rgba(255, 111, 60, 0.85)';
+                ctx.fillRect(34, 52+opts.top, 36, 2);
+            }
+            function frame(t){
+                if (!running) return;
+                ctx.clearRect(0,0,w,h);
+                if (opts.background){ ctx.fillStyle = '#0B1220'; ctx.fillRect(0,0,w,h); }
+                drawGrid(); drawRadar(); drawBrackets(); drawTelemetry(t);
+                const dt = 1/60;
+                if (t - lastSpawn > 2600 || jets.length === 0){ spawn(t); lastSpawn = t; }
+                jets.forEach(j => {
+                    j.x += j.vx*dt; j.y += j.vy*dt;
+                    j.trail.push([j.x, j.y]); if (j.trail.length > 70) j.trail.shift();
+                    const ang = Math.atan2(j.vy, j.vx);
+                    for (let i=1;i<j.trail.length;i++){
+                        const a = i/j.trail.length;
+                        ctx.strokeStyle = 'rgba(226,232,240,' + (a*0.35) + ')';
+                        ctx.lineWidth = 1;
+                        ctx.beginPath(); ctx.moveTo(j.trail[i-1][0], j.trail[i-1][1]); ctx.lineTo(j.trail[i][0], j.trail[i][1]); ctx.stroke();
+                    }
+                    ctx.save(); ctx.translate(j.x, j.y); ctx.rotate(ang);
+                    jetPath(ctx, j.size);
+                    ctx.fillStyle = 'rgba(226,232,240,0.9)'; ctx.fill();
+                    ctx.restore();
+                    // lock-on box
+                    ctx.strokeStyle = 'rgba(255,111,60,0.7)'; ctx.lineWidth = 1;
+                    const b = j.size*1.5; ctx.strokeRect(j.x-b, j.y-b, b*2, b*2);
+                });
+                jets = jets.filter(j => j.x > -200 && j.x < w+200 && j.y > -200 && j.y < h+200);
+                sweep += 0.02;
+                if (!reduce) requestAnimationFrame(frame);
+            }
+            resize(); window.addEventListener('resize', resize);
+            if (reduce){ spawn(0); jets.forEach(j=>{ j.x = w*0.4; }); frame(0); } else { requestAnimationFrame(frame); }
+            return { stop(){ running = false; } };
+        };
+    })();
+    </script>
+    <script>
+        // Start HUD animations
+        document.addEventListener('DOMContentLoaded', () => {
+            const l = document.getElementById('landing-hud');
+            if (l && window.startHUD) window.startHUD(l);
+            const m = document.getElementById('masthead-hud');
+            if (m && window.startHUD) {
+                const mo = new MutationObserver(() => {
+                    const main = document.getElementById('main-portfolio-content');
+                    if (main && !main.classList.contains('hidden')) { window.startHUD(m, { top: 72, bottom: 70 }); mo.disconnect(); }
+                });
+                mo.observe(document.getElementById('main-portfolio-content'), { attributes: true });
+            }
+        });
+
+    </script>
+</body>
+</html>
+
+
+
