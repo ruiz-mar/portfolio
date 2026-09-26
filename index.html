@@ -113,51 +113,46 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
         }
 
-        /* Tactical Blue Camo background for the Name/Hero Card */
+        /* Tactical Blue Camo background matching the uploaded Midnight Navy palette */
         #introduction .section-content {
             position: relative;
-            background-color: #0b1c3d;
+            background-color: #0e1526;
             background-image: 
-                radial-gradient(ellipse at 20% 30%, rgba(29, 78, 216, 0.7) 0%, transparent 45%),
-                radial-gradient(ellipse at 80% 20%, rgba(15, 23, 42, 0.85) 0%, transparent 50%),
-                radial-gradient(ellipse at 50% 80%, rgba(30, 58, 138, 0.75) 0%, transparent 48%),
-                radial-gradient(ellipse at 85% 75%, rgba(2, 132, 199, 0.6) 0%, transparent 40%),
-                radial-gradient(ellipse at 15% 85%, rgba(14, 165, 233, 0.45) 0%, transparent 35%),
-                linear-gradient(135deg, #091224 0%, #0f1e3d 50%, #0a1936 100%);
-            background-size: 100% 100%, 80px 80px, 120px 120px, 90px 90px, 110px 110px, 100% 100%;
-            border: 1px solid rgba(125, 211, 252, 0.2);
-            box-shadow: 0 25px 50px -12px rgba(11, 28, 61, 0.45);
+                /* Layer 1: Vector blob camouflage using sample tones #0e1526, #162238, #22334f, #2f4469 */
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 400 400'%3E%3Crect width='400' height='400' fill='%230e1526'/%3E%3Cpath d='M30,40 Q80,20 110,60 T180,120 T140,210 T50,220 T20,130 Z' fill='%23162238'/%3E%3Cpath d='M220,10 Q280,30 330,20 T390,90 T340,160 T250,140 T210,60 Z' fill='%2322334f'/%3E%3Cpath d='M140,90 Q190,70 230,110 T250,190 T180,240 T120,170 Z' fill='%232f4469'/%3E%3Cpath d='M270,170 Q340,160 380,220 T360,330 T280,360 T220,290 T240,210 Z' fill='%23162238'/%3E%3Cpath d='M300,210 Q350,220 360,260 T310,320 T260,280 Z' fill='%230e1526'/%3E%3Cpath d='M30,260 Q90,240 140,290 T150,380 T80,410 T10,350 Z' fill='%2322334f'/%3E%3Cpath d='M50,290 Q80,280 100,320 T70,370 T30,330 Z' fill='%232f4469'/%3E%3Cpath d='M160,280 Q210,260 250,300 T230,370 T160,350 Z' fill='%23162238'/%3E%3C/svg%3E"),
+                /* Layer 2: Ambient depth shading */
+                radial-gradient(ellipse at 50% 50%, rgba(34, 51, 79, 0.4) 0%, rgba(14, 21, 38, 0.85) 100%);
+            background-size: 380px 380px, 100% 100%;
+            border: 1px solid rgba(47, 68, 105, 0.55);
+            box-shadow: 0 25px 50px -12px rgba(8, 13, 24, 0.7);
             overflow: hidden;
         }
-        #introduction .section-content::before {
+
+        #introduction .section-content::after {
             content: '';
             position: absolute;
             inset: 0;
-            background-image: 
-                radial-gradient(#1e3a8a 25%, transparent 26%),
-                radial-gradient(#0369a1 25%, transparent 26%),
-                radial-gradient(#0f172a 28%, transparent 29%);
-            background-size: 130px 130px;
-            background-position: 0 0, 65px 65px, 35px 35px;
-            opacity: 0.35;
-            mix-blend-mode: overlay;
+            background: radial-gradient(circle at center, transparent 35%, rgba(10, 15, 28, 0.5) 100%);
             pointer-events: none;
         }
+
         #introduction h1, #introduction h2, #introduction p {
             position: relative;
             z-index: 10;
         }
         #introduction h1 {
             color: #FFFFFF;
-            text-shadow: 0 4px 14px rgba(0, 0, 0, 0.6);
+            text-shadow: 0 3px 12px rgba(0, 0, 0, 0.75);
         }
         #introduction h2 {
-            color: #7DD3FC;
+            color: #93c5fd;
             font-weight: 600;
-            letter-spacing: 0.03em;
+            letter-spacing: 0.02em;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
         }
         #introduction p {
             color: #E2E8F0;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
         }
 
         /* Marquee setup */
@@ -278,8 +273,8 @@
             width: 48px;
             height: 48px;
             border-radius: 50%;
-            background-color: rgba(15, 23, 42, 0.85);
-            border: 1px solid rgba(125, 211, 252, 0.3);
+            background-color: rgba(22, 34, 56, 0.85);
+            border: 1px solid rgba(47, 68, 105, 0.6);
             color: #E5E7EB;
             font-size: 1.3rem;
             position: relative;
@@ -287,8 +282,8 @@
             transition: all 0.3s ease-in-out;
         }
         .social-link-item:hover {
-            background-color: #0284C7;
-            border-color: #38BDF8;
+            background-color: #2f4469;
+            border-color: #93c5fd;
             color: #FFFFFF;
             transform: translateY(-2px);
         }
@@ -444,7 +439,7 @@
             </div>
         </section>
         
-        <!-- Introduction Section with Blue Camo Card -->
+        <!-- Introduction Section with Midnight Navy Camo Card -->
         <section id="introduction" class="container mx-auto max-w-6xl p-4 sm:p-8 lg:p-12 text-center -mt-20 relative z-20 scroll-mt-20">
              <div class="rounded-3xl shadow-2xl p-8 sm:p-12 section-content">
                 <h1 class="text-4xl sm:text-5xl lg:text-7xl font-extrabold mb-4">Mario Ruiz</h1>
